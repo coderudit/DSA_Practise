@@ -1,4 +1,4 @@
-package com.dsa.app.level1;
+package com.dsa.app.level1.gettingstarted;
 
 public class _2_binary_to_decimal {
     public static int convertAnyBaseToDecimal(int number, int currentBase, int requiredBase) {

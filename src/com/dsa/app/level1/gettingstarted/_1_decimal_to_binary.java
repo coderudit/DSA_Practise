@@ -1,4 +1,4 @@
-package com.dsa.app.level1;
+package com.dsa.app.level1.gettingstarted;
 
 public class _1_decimal_to_binary {
 
