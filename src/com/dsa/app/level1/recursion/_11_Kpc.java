@@ -28,6 +28,8 @@ public class _11_Kpc {
         for (var item : printKeypadCombination("573")) {
             System.out.println(item);
         }
+        System.out.println();
+        printKPC("573", 0, "");
     }
 
     private static List<String> printKeypadCombination(String input) {
@@ -56,5 +58,18 @@ public class _11_Kpc {
             }
         }
         return newList;
+    }
+
+    public static void printKPC(String str, int index, String asf) {
+        if (str.length() == index) {
+            System.out.println(asf);
+            return;
+        }
+
+        var keypad = keyPadDict.get(Integer.parseInt(String.valueOf(str.charAt(index))));
+        for(int startIndex = 0; startIndex < keypad.length(); startIndex++){
+            printKPC(str, index +1, asf + keypad.charAt(startIndex));
+        }
+
     }
 }
