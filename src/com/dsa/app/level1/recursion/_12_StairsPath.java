@@ -8,6 +8,8 @@ public class _12_StairsPath {
         for (var item : getStairPaths(3)) {
             System.out.println(item);
         }
+
+        printStairPaths(3, 0, "");
     }
 
     private static List<String> getStairPaths(int n) {
@@ -45,5 +47,16 @@ public class _12_StairsPath {
         }
 
         return newPaths;
+    }
+
+    public static void printStairPaths(int n, int sum, String path) {
+        if (n == sum) {
+            System.out.println(path);
+            return;
+        }
+        for (int i = 1; i <= 3; i++) {
+            if (sum + i <= n)
+                printStairPaths(n, sum + i, path + i);
+        }
     }
 }
