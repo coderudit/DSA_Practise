@@ -9,7 +9,7 @@ public class _13_MazePath {
             System.out.println(item);
         }*/
 
-        for (var item : getMazePathsWithJumps(1, 1, 2, 2)) {
+        for (var item : getMazePathsWithJumps(1, 1, 2, 2, "")) {
             System.out.println(item);
         }
     }
@@ -38,7 +38,8 @@ public class _13_MazePath {
         return combinedList;
     }
 
-    private static List<String> getMazePathsWithJumps(int sr, int sc, int dr, int dc) {
+
+    private static List<String> getMazePathsWithJumps(int sr, int sc, int dr, int dc, String mazePath) {
         if (sr == dr && sc == dc) {
             var finalPaths = new ArrayList<String>();
             finalPaths.add("");
@@ -54,7 +55,7 @@ public class _13_MazePath {
         if (sc != dc) {
             for (int index = 1; index < dc; index++) {
                 if (sc + index <= dc) {
-                    hPaths = getMazePathsWithJumps(sr, sc + index, dr, dc);
+                    hPaths = getMazePathsWithJumps(sr, sc + index, dr, dc, mazePath);
                     for(var item: hPaths){
                         combinedList.add("h"+ index+item);
                     }
@@ -65,7 +66,7 @@ public class _13_MazePath {
         if (sr != dr) {
             for (int index = 1; index < dr; index++) {
                 if (sr + index <= dc) {
-                    vPaths = getMazePathsWithJumps(sr + index, sc, dr, dc);
+                    vPaths = getMazePathsWithJumps(sr + index, sc, dr, dc, mazePath);
                     for(var item: vPaths){
                         combinedList.add("v"+ index+item);
                     }
@@ -77,7 +78,7 @@ public class _13_MazePath {
         if (sc != dc && sr != dr) {
             for (int index = 1; index < dr; index++) {
                 if (sr + index <= dr) {
-                    dPaths = getMazePathsWithJumps(sr + index, sc + index, dr, dc);
+                    dPaths = getMazePathsWithJumps(sr + index, sc + index, dr, dc, mazePath);
                     for(var item: dPaths){
                         combinedList.add("d"+ index+item);
                     }
