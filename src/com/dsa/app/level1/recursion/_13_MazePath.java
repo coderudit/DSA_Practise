@@ -5,13 +5,17 @@ import java.util.List;
 
 public class _13_MazePath {
     public static void main(String[] args) {
-        /*for (var item : getMazePaths(1, 1, 3, 3)) {
-            System.out.println(item);
-        }*/
-
-        for (var item : getMazePathsWithJumps(1, 1, 2, 2, "")) {
+        for (var item : getMazePaths(1, 1, 3, 3)) {
             System.out.println(item);
         }
+
+        System.out.println();
+
+        printMazePath(1,1, 3, 3, "");
+
+        /*for (var item : getMazePathsWithJumps(1, 1, 2, 2)) {
+            System.out.println(item);
+        }*/
     }
 
     private static List<String> getMazePaths(int sr, int sc, int dr, int dc) {
@@ -38,8 +42,21 @@ public class _13_MazePath {
         return combinedList;
     }
 
+    private static void printMazePath(int sr, int sc, int dr, int dc, String mazePath){
+        if(sr==dr && sc==dc){
+            System.out.println(mazePath);
+        }
 
-    private static List<String> getMazePathsWithJumps(int sr, int sc, int dr, int dc, String mazePath) {
+        if(sc!=dc)
+            printMazePath(sr, sc+1, dr, dc, "v" + mazePath );
+
+        if(sr != dr)
+            printMazePath(sr+1, sc, dr, dc, "h" + mazePath);
+
+    }
+
+
+    private static List<String> getMazePathsWithJumps(int sr, int sc, int dr, int dc) {
         if (sr == dr && sc == dc) {
             var finalPaths = new ArrayList<String>();
             finalPaths.add("");
@@ -55,7 +72,7 @@ public class _13_MazePath {
         if (sc != dc) {
             for (int index = 1; index < dc; index++) {
                 if (sc + index <= dc) {
-                    hPaths = getMazePathsWithJumps(sr, sc + index, dr, dc, mazePath);
+                    hPaths = getMazePathsWithJumps(sr, sc + index, dr, dc);
                     for(var item: hPaths){
                         combinedList.add("h"+ index+item);
                     }
@@ -66,7 +83,7 @@ public class _13_MazePath {
         if (sr != dr) {
             for (int index = 1; index < dr; index++) {
                 if (sr + index <= dc) {
-                    vPaths = getMazePathsWithJumps(sr + index, sc, dr, dc, mazePath);
+                    vPaths = getMazePathsWithJumps(sr + index, sc, dr, dc);
                     for(var item: vPaths){
                         combinedList.add("v"+ index+item);
                     }
@@ -78,7 +95,7 @@ public class _13_MazePath {
         if (sc != dc && sr != dr) {
             for (int index = 1; index < dr; index++) {
                 if (sr + index <= dr) {
-                    dPaths = getMazePathsWithJumps(sr + index, sc + index, dr, dc, mazePath);
+                    dPaths = getMazePathsWithJumps(sr + index, sc + index, dr, dc);
                     for(var item: dPaths){
                         combinedList.add("d"+ index+item);
                     }
