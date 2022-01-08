@@ -1,4 +1,4 @@
-package com.dsa.app.leetcode;
+package com.dsa.app.leetcode.dynamicprogramming;
 
 public class _746_MinCostClimbingStairs {
     public static void main(String[] args) {
