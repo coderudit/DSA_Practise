@@ -1,17 +1,16 @@
 package com.dsa.app.level1.generictrees;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class GenericTreeImplementation {
     public static void main(String[] args) {
         int[] arr = {10, 20, 50, -1, 60, -1, -1, 30, 70, -1, 80, 110, -1, 120};
-        var root = createGenericTree(arr);
+        var root = CreateGenericTree(arr);
+        DisplayGenericTree(root);
         System.out.println();
     }
 
-    public static GTDS createGenericTree(int[] arr) {
+    public static GTDS CreateGenericTree(int[] arr) {
         GTDS root = new GTDS(arr[0]);
         Stack<GTDS> treeStack = new Stack<>();
         treeStack.push(root);
@@ -27,6 +26,27 @@ public class GenericTreeImplementation {
         }
         return root;
     }
+
+    public static void DisplayGenericTree(GTDS root) {
+        if (root == null)
+            return;
+
+        Queue<GTDS> queue = new ArrayDeque<>();
+        queue.add(root);
+
+        while (!queue.isEmpty()) {
+            var element = queue.remove();
+            System.out.println(element.getValue());
+
+            var children = element.getChildren();
+            for (int index = 0; index < children.size(); index++) {
+                queue.add(children.get(index));
+            }
+
+        }
+    }
+
+
 }
 
 class GTDS {
