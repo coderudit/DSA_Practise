@@ -7,6 +7,7 @@ public class GenericTreeImplementation {
         int[] arr = {10, 20, 50, -1, 60, -1, -1, 30, 70, -1, 80, 110, -1, 120};
         var root = CreateGenericTree(arr);
         DisplayGenericTree(root);
+        SizeGenericTree(root);
         System.out.println();
     }
 
@@ -36,7 +37,6 @@ public class GenericTreeImplementation {
 
         while (!queue.isEmpty()) {
             var element = queue.remove();
-            System.out.println(element.getValue());
 
             var children = element.getChildren();
             for (int index = 0; index < children.size(); index++) {
@@ -46,6 +46,28 @@ public class GenericTreeImplementation {
         }
     }
 
+    public static void SizeGenericTree(GTDS root) {
+        if (root == null)
+            return;
+
+        Queue<GTDS> queue = new ArrayDeque<>();
+        queue.add(root);
+
+        int count = 1;
+
+        while (!queue.isEmpty()) {
+            var element = queue.remove();
+            System.out.println(element.getValue());
+
+            var children = element.getChildren();
+            for (int index = 0; index < children.size(); index++) {
+                queue.add(children.get(index));
+                count++;
+            }
+
+        }
+        System.out.println("Size of a tree: " + count);
+    }
 
 }
 
