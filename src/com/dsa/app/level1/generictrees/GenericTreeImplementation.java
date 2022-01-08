@@ -125,6 +125,24 @@ public class GenericTreeImplementation {
         }
         System.out.println("Node Post " + root.getValue());
     }
+
+    public static void LevelOrderTraversal(GTDS root){
+        if (root == null)
+            return;
+
+        Queue<GTDS> queue = new ArrayDeque<>();
+        queue.add(root);
+
+        while (!queue.isEmpty()) {
+            var element = queue.remove();
+
+            var children = element.getChildren();
+            for (int index = 0; index < children.size(); index++) {
+                queue.add(children.get(index));
+            }
+
+        }
+    }
 }
 
 class GTDS {
