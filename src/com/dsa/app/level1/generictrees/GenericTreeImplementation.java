@@ -6,10 +6,11 @@ public class GenericTreeImplementation {
     public static void main(String[] args) {
         int[] arr = {10, 20, 50, -1, 60, -1, -1, 30, 70, -1, 80, 110, -1, 120};
         var root = CreateGenericTree(arr);
-        DisplayGenericTree(root);
-        SizeGenericTree(root);
-        MaximumInGenericTree(root);
-        HeightOfGenericTree(root);
+        //DisplayGenericTree(root);
+        //SizeGenericTree(root);
+        //MaximumInGenericTree(root);
+        //HeightOfGenericTree(root);
+        TraversalGenericTree(root);
         System.out.println();
     }
 
@@ -111,6 +112,18 @@ public class GenericTreeImplementation {
             max = Math.max(max, genericTreeHeight(child));
         }
         return max + 1;
+    }
+
+    public static void TraversalGenericTree(GTDS root){
+        if(root == null)
+            return;
+        System.out.println("Node Pre " + root.getValue());
+        for(var child: root.getChildren()){
+            System.out.println("Edge Pre " + root.getValue() + "--" + child.getValue());
+            TraversalGenericTree(child);
+            System.out.println("Edge Post " + root.getValue() + "--" + child.getValue());
+        }
+        System.out.println("Node Post " + root.getValue());
     }
 }
 
