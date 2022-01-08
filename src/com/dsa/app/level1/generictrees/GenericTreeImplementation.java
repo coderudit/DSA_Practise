@@ -8,6 +8,8 @@ public class GenericTreeImplementation {
         var root = CreateGenericTree(arr);
         DisplayGenericTree(root);
         SizeGenericTree(root);
+        MaximumInGenericTree(root);
+        HeightOfGenericTree(root);
         System.out.println();
     }
 
@@ -57,7 +59,6 @@ public class GenericTreeImplementation {
 
         while (!queue.isEmpty()) {
             var element = queue.remove();
-            System.out.println(element.getValue());
 
             var children = element.getChildren();
             for (int index = 0; index < children.size(); index++) {
@@ -66,9 +67,51 @@ public class GenericTreeImplementation {
             }
 
         }
-        System.out.println("Size of a tree: " + count);
+        System.out.println("Size of tree: " + count);
     }
 
+    public static void MaximumInGenericTree(GTDS root) {
+        if (root == null)
+            return;
+
+        Queue<GTDS> queue = new ArrayDeque<>();
+        queue.add(root);
+
+        int max = -1;
+
+        while (!queue.isEmpty()) {
+            var element = queue.remove();
+            if (element.getValue() > max)
+                max = element.getValue();
+
+            var children = element.getChildren();
+
+            for (int index = 0; index < children.size(); index++) {
+                queue.add(children.get(index));
+            }
+
+        }
+        System.out.println("Maximum value in tree: " + max);
+    }
+
+    public static void HeightOfGenericTree(GTDS root) {
+        if (root == null)
+            return;
+
+        int height = genericTreeHeight(root);
+
+        System.out.println("Height of the tree: " + height);
+    }
+
+    private static int genericTreeHeight(GTDS root) {
+        if (root.getChildren().size() == 0)
+            return 0;
+        int max = 0;
+        for (var child : root.getChildren()) {
+            max = Math.max(max, genericTreeHeight(child));
+        }
+        return max + 1;
+    }
 }
 
 class GTDS {
