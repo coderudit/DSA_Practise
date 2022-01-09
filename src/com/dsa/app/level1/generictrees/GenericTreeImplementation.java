@@ -10,7 +10,9 @@ public class GenericTreeImplementation {
         //SizeGenericTree(root);
         //MaximumInGenericTree(root);
         //HeightOfGenericTree(root);
-        TraversalGenericTree(root);
+        //TraversalGenericTree(root);
+        //LevelOrderTraversal(root)
+        LevelOrderLineWiseTraversal(root);
         System.out.println();
     }
 
@@ -114,11 +116,11 @@ public class GenericTreeImplementation {
         return max + 1;
     }
 
-    public static void TraversalGenericTree(GTDS root){
-        if(root == null)
+    public static void TraversalGenericTree(GTDS root) {
+        if (root == null)
             return;
         System.out.println("Node Pre " + root.getValue());
-        for(var child: root.getChildren()){
+        for (var child : root.getChildren()) {
             System.out.println("Edge Pre " + root.getValue() + "--" + child.getValue());
             TraversalGenericTree(child);
             System.out.println("Edge Post " + root.getValue() + "--" + child.getValue());
@@ -126,7 +128,7 @@ public class GenericTreeImplementation {
         System.out.println("Node Post " + root.getValue());
     }
 
-    public static void LevelOrderTraversal(GTDS root){
+    public static void LevelOrderTraversal(GTDS root) {
         if (root == null)
             return;
 
@@ -144,6 +146,30 @@ public class GenericTreeImplementation {
         }
     }
 
+    public static void LevelOrderLineWiseTraversal(GTDS root) {
+        if (root == null)
+            return;
+
+        Queue<GTDS> queue = new ArrayDeque<>();
+        queue.add(root);
+        queue.add(new GTDS(-1));
+
+        while (!queue.isEmpty()) {
+            var element = queue.remove();
+
+            if (element.getValue() == -1) {
+                System.out.println("");
+            } else {
+                System.out.println(element.getValue());
+                if(element.getChildren().size() > 0) {
+                    for (var child : element.getChildren()) {
+                        queue.add(child);
+                    }
+                    queue.add(new GTDS(-1));
+                }
+            }
+        }
+    }
 
 }
 
