@@ -12,7 +12,8 @@ public class GenericTreeImplementation {
         //HeightOfGenericTree(root);
         //TraversalGenericTree(root);
         //LevelOrderTraversal(root)
-        LevelOrderLineWiseTraversal(root);
+        //LevelOrderLineWiseTraversal(root);
+        LevelOrderZigZagTraversal(root);
         System.out.println();
     }
 
@@ -161,12 +162,46 @@ public class GenericTreeImplementation {
                 System.out.println("");
             } else {
                 System.out.println(element.getValue());
-                if(element.getChildren().size() > 0) {
+                if (element.getChildren().size() > 0) {
                     for (var child : element.getChildren()) {
                         queue.add(child);
                     }
                     queue.add(new GTDS(-1));
                 }
+            }
+        }
+    }
+
+    public static void LevelOrderZigZagTraversal(GTDS root) {
+        if (root == null)
+            return;
+
+        var mainStack = new Stack<GTDS>();
+        var childStack = new Stack<GTDS>();
+
+        int level = 1;
+        mainStack.add(root);
+
+        while (!mainStack.isEmpty()) {
+            var element = mainStack.pop();
+            System.out.println(element.getValue());
+
+            if (level % 2 == 1) {
+                for (var child : element.getChildren()) {
+                    childStack.push(child);
+                }
+            } else {
+                for (int index = element.getChildren().size() - 1; index >= 0; index--) {
+                    childStack.push(element.getChildren().get(index));
+                }
+            }
+
+
+            if (mainStack.isEmpty()) {
+                mainStack = childStack;
+                childStack = new Stack<>();
+                level++;
+                System.out.println();
             }
         }
     }
