@@ -6,14 +6,15 @@ public class GenericTreeImplementation {
     public static void main(String[] args) {
         int[] arr = {10, 20, 50, -1, 60, -1, -1, 30, 70, -1, 80, 110, -1, 120};
         var root = CreateGenericTree(arr);
-        //DisplayGenericTree(root);
+        DisplayGenericTree(root);
         //SizeGenericTree(root);
         //MaximumInGenericTree(root);
         //HeightOfGenericTree(root);
         //TraversalGenericTree(root);
-        //LevelOrderTraversal(root)
+        //LevelOrderTraversal(root);
         //LevelOrderLineWiseTraversal(root);
-        LevelOrderZigZagTraversal(root);
+        //LevelOrderZigZagTraversal(root);
+        MirrorTree(root);
         System.out.println();
     }
 
@@ -43,12 +44,11 @@ public class GenericTreeImplementation {
 
         while (!queue.isEmpty()) {
             var element = queue.remove();
-
+            System.out.println(element.getValue());
             var children = element.getChildren();
             for (int index = 0; index < children.size(); index++) {
                 queue.add(children.get(index));
             }
-
         }
     }
 
@@ -206,6 +206,21 @@ public class GenericTreeImplementation {
         }
     }
 
+    public static void MirrorTree(GTDS root) {
+       Queue<GTDS> queue = new ArrayDeque<>();
+
+       queue.add(root);
+       while(queue.size() > 0) {
+           var element = queue.remove();
+           System.out.println(element.getValue());
+
+           Collections.reverse(element.getChildren());
+
+           for(var child: element.getChildren()) {
+               queue.add(child);
+           }
+       }
+    }
 }
 
 class GTDS {
