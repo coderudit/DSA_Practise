@@ -37,6 +37,7 @@ public class _1971_FindIfPathExistsInGraph {
             if(visited[node]){
                 continue;
             }
+            visited[node] = true;
 
             for(int neighbor : adjacencyList.get(node)){
                 stack.push(neighbor);
