@@ -13,10 +13,12 @@ public class _121_BestTimeToSellStock {
         int maxProfit = 0;
 
         for (int index = 0; index < prices.length; index++) {
+            //If we find min we will update it.
             if (prices[index] < minBuyValue) minBuyValue = prices[index];
 
             int todayProfit = prices[index] - minBuyValue;
 
+            //But profit gets updated only when it is greater than previous profit.
             if (todayProfit > maxProfit)
                 maxProfit = todayProfit;
 
