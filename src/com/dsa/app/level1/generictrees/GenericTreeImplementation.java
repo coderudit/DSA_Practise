@@ -4,7 +4,7 @@ import java.util.*;
 
 public class GenericTreeImplementation {
     public static void main(String[] args) {
-        int[] arr = {10, 20, 50, -1, 60, -1, -1, 30, 70, -1, 80, 110, -1, 120};
+        int[] arr = {10, 20, 50, -1, 60, -1, -1, 30, 70, -1, 80, 110, -1, 120, -1, -1, 90, -1, -1, 40, 100, -1, -1, -1};
         var root = CreateGenericTree(arr);
         //DisplayGenericTree(root);
         //SizeGenericTree(root);
@@ -15,7 +15,9 @@ public class GenericTreeImplementation {
         //LevelOrderLineWiseTraversal(root);
         //LevelOrderZigZagTraversal(root);
         //MirrorTree(root);
-        RemoveLeavesOfTree(root);
+        //RemoveLeavesOfTree(root);
+        //Linearize(root);
+        FindAnElement(root, 120);
         System.out.println();
     }
 
@@ -208,36 +210,60 @@ public class GenericTreeImplementation {
     }
 
     public static void MirrorTree(GTDS root) {
-       Queue<GTDS> queue = new ArrayDeque<>();
+        Queue<GTDS> queue = new ArrayDeque<>();
 
-       queue.add(root);
-       while(queue.size() > 0) {
-           var element = queue.remove();
-           System.out.println(element.getValue());
+        queue.add(root);
+        while (queue.size() > 0) {
+            var element = queue.remove();
+            System.out.println(element.getValue());
 
-           Collections.reverse(element.getChildren());
+            Collections.reverse(element.getChildren());
 
-           for(var child: element.getChildren()) {
-               queue.add(child);
-           }
-       }
+            for (var child : element.getChildren()) {
+                queue.add(child);
+            }
+        }
     }
 
-    public static void RemoveLeavesOfTree(GTDS root){
+    public static void RemoveLeavesOfTree(GTDS root) {
         removeLeaves(root);
         DisplayGenericTree(root);
     }
 
-    private static boolean removeLeaves(GTDS root){
-        if(root.getChildren().size() == 0)
+    private static boolean removeLeaves(GTDS root) {
+        if (root.getChildren().size() == 0)
             return true;
 
         var children = root.getChildren();
-        for(int index = 0; index < children.size(); index++){
+        for (int index = 0; index < children.size(); index++) {
             var isLeaf = removeLeaves(children.get(index));
-            if(isLeaf)
+            if (isLeaf)
                 root.getChildren().set(index, new GTDS(-1));
         }
+        return false;
+    }
+
+    public static void Linearize(GTDS root) {
+        if (root == null)
+            return;
+
+        System.out.println(root.getValue());
+        for (var child : root.getChildren()) {
+            Linearize(child);
+        }
+
+    }
+
+    public static boolean FindAnElement(GTDS root, int key) {
+        if (root.getValue() == key)
+            return true;
+
+        for (var child : root.getChildren()) {
+            boolean result = FindAnElement(child, key);
+            if (result)
+                return true;
+        }
+
         return false;
     }
 }

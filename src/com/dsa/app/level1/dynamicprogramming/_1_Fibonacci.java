@@ -3,16 +3,11 @@ package com.dsa.app.level1.dynamicprogramming;
 public class _1_Fibonacci {
 
     public static void main(String[] args) {
-        int num = 0;
-        int[] fibArr = new int[num + 1];
-        fibArr[0] = 0;
-        if (num > 0)
-            fibArr[1] = 1;
-        for (int index = 2; index <= num; index++) {
-            fibArr[index] = -1;
-        }
-        int fib = findFibonacci(num, fibArr);
-        System.out.println(fib);
+        int num = 20;
+        System.out.println(findFibonacciIterative(num));
+        //int[] fibArr = new int[num + 1];
+        //int fib = findFibonacci(num, fibArr);
+        //System.out.println(fib);
     }
 
     private static int findFibonacci(int num, int[] fibArr) {
@@ -23,5 +18,22 @@ public class _1_Fibonacci {
         fibArr[num] = fib1 + fib2;
 
         return fib1 + fib2;
+    }
+
+    private static int findFibonacciIterative(int num) {
+        if (num <= 0)
+            return 0;
+        else if (num <= 2) {
+            return 1;
+        }
+
+        int[] qb = new int[num + 1];
+        qb[1] = 1;
+        qb[2] = 1;
+        for (int i = 3; i <= num; i++) {
+            qb[i] = qb[i - 1] + qb[i - 2];
+        };
+
+        return qb[num];
     }
 }

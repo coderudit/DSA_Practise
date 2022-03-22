@@ -122,7 +122,7 @@ public class _13_MazePath {
                 printMazePathsWithJumps(sr + index, sc, dr, dc, mazePath + "h"+index);
         }
 
-        for (int index = 1; index <= dr; index++) {
+        for (int index = 1; index <= dc; index++) {
             if (sc + index <= dc)
                 printMazePathsWithJumps(sr, sc+ index, dr, dc, mazePath + "v"+index);
         }

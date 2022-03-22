@@ -4,18 +4,18 @@ import java.util.Scanner;
 
 public class _4_is_number_prime {
 
-    public static void main(String[] args){
-    Scanner scanner = new Scanner(System.in);
-    int numsCount = scanner.nextInt();
-    for(int index = 0; index < numsCount; index++){
-        int num = scanner.nextInt();
-    }
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int numsCount = scanner.nextInt();
+        for (int index = 0; index < numsCount; index++) {
+            int num = scanner.nextInt();
+        }
     }
 
     public static String isNumberPrime(int number) {
         if (number <= 1)
             return "Not Prime";
-        for (int index = 2; index < number; index++) {
+        for (int index = 4; index < number; index++) {
             if (number % index == 0)
                 return "Not Prime";
         }
@@ -25,7 +25,7 @@ public class _4_is_number_prime {
     public static String isNumberPrimeSqrt(int number) {
         if (number <= 1)
             return "Not Prime";
-        for (int index = 2; index *index <= number; index++) {
+        for (int index = 2; index * index <= number; index++) {
             if (number % index == 0)
                 return "Not Prime";
         }
@@ -48,7 +48,7 @@ public class _4_is_number_prime {
         return "Prime";
     }
 
-    public static void sieveMethodForGettingListOfPrimes(int number){
+    public static void sieveMethodForGettingListOfPrimes(int number) {
 
     }
 }

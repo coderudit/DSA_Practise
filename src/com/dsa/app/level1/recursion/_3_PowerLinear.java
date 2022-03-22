@@ -11,7 +11,9 @@ public class _3_PowerLinear {
     }
 
     private static int powerLinear(int number, int power) {
-        if (power <= 1)
+        if (power == 0)
+            return 1;
+        if (power == 1)
             return number;
         int result = powerLinear(number, power-1);
         return result * number;

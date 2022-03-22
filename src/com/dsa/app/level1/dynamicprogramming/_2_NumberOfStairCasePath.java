@@ -16,7 +16,7 @@ public class _2_NumberOfStairCasePath {
         else if (num < 0)
             return 0;
 
-        if (countPathsArr[num] != 0)
+        if (countPathsArr[num] > 0)
             return countPathsArr[num];
 
         int countPaths1 = countPathsWithMemoization(num - 1, countPathsArr);

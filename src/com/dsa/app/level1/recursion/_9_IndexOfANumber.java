@@ -33,11 +33,11 @@ public class _9_IndexOfANumber {
 
     private static int[] allIndicesOfAnArray(int[] arr, int index, int number, int count) {
         if (index == arr.length)
-            return new int[count+1];
+            return new int[count + 1];
         int currentIndex = -1;
         if (arr[index] == number) {
             currentIndex = index + 1;
-            count = count+1;
+            count = count + 1;
         }
         int[] newArr = allIndicesOfAnArray(arr, index + 1, number, count);
         if (currentIndex != -1) {

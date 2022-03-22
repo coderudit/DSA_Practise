@@ -21,12 +21,10 @@ public class _1_MaxConsecutiveOnes {
             if (nums[index] == 1)
                 currentCount++;
             else {
-                if (currentCount > prevCount) {
-                    prevCount = currentCount;
-                }
+                prevCount = Math.max(prevCount, currentCount);
                 currentCount = 0;
             }
         }
-        return prevCount > currentCount ? prevCount : currentCount;
+        return Math.max(prevCount, currentCount);
     }
 }
