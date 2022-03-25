@@ -8,11 +8,33 @@ public class _119_PascalTriangle {
 
 
     public static void main(String[] args) {
-        var lstInteger = getRow(25);
+        new _119_PascalTriangle().getRow(5);
         System.out.println();
     }
 
-    private static List<Integer> getRow(int rowIndex) {
+    public List<Integer> getRow(int rowIndex) {
+        var lst = new ArrayList<Integer>();
+        int[][] pascalDP = new int[rowIndex+1][rowIndex+1];
+        for(int col = 0; col <= rowIndex; col++){
+            lst.add(getPascalList(rowIndex, col, pascalDP));
+        }
+        lst.forEach(x->System.out.println(x));
+        return lst;
+    }
+
+    private int getPascalList(int rowIndex, int colIndex, int[][] pascalDP) {
+        if (colIndex == 0 || rowIndex == colIndex) {
+            return 1;
+        }
+        if (pascalDP[rowIndex][colIndex] > 0)
+            return pascalDP[rowIndex][colIndex];
+        int leftCol = getPascalList(rowIndex - 1, colIndex - 1, pascalDP);
+        int rightCol = getPascalList(rowIndex - 1, colIndex, pascalDP);
+        pascalDP[rowIndex][colIndex] = leftCol + rightCol;
+        return pascalDP[rowIndex][colIndex];
+    }
+
+    /*private static List<Integer> getRow(int rowIndex) {
 
         List<PascalPair> resultArr = new ArrayList<>();
         var lstInteger = new ArrayList<Integer>();
@@ -49,11 +71,11 @@ public class _119_PascalTriangle {
         resultArr.add(pasPair);
 
         return value1 + value2;
-    }
+    }*/
 
 }
 
-class PascalPair {
+/*class PascalPair {
     private int rowIndex;
     private int colIndex;
     private int value;
@@ -91,5 +113,5 @@ class PascalPair {
     public int hashCode() {
         return Objects.hash(rowIndex, colIndex, value);
     }
-}
+}*/
 
