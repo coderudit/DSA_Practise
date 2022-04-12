@@ -14,12 +14,14 @@ public class _10_KadaneAlgo {
         int max = nums[0];
         int currentSum = nums[0];
         for (int index = 1; index < nums.length; index++) {
-            if (currentSum >= 0) {
+            //Doing this step because we know if new value comes.
+            //1. If the value is negative, then, it will decrease the value more.
+            //2. If the value is positive, then, why to include that value when
+            //it can have its own sequence.
+            if (currentSum >= 0)
                 currentSum = currentSum + nums[index];
-
-            }else{
+            else
                 currentSum = nums[index];
-            }
 
             if (currentSum > max)
                 max = currentSum;
