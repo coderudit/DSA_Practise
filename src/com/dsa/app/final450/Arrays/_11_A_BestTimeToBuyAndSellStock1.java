@@ -1,9 +1,9 @@
 package com.dsa.app.final450.Arrays;
 
-public class _11_BestTimeToBuyAndSellStock {
+public class _11_A_BestTimeToBuyAndSellStock1 {
     public static void main(String[] args) {
         int[] prices = {7,6,4,3,1};
-        _11_BestTimeToBuyAndSellStock obj = new _11_BestTimeToBuyAndSellStock();
+        _11_A_BestTimeToBuyAndSellStock1 obj = new _11_A_BestTimeToBuyAndSellStock1();
         System.out.println(obj.maxProfit(prices));
     }
 
