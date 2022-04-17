@@ -1,8 +1,8 @@
 package com.dsa.app.final450.Arrays;
 
-public class _18_A_MedianOf2SortedArraysSameSize {
+public class _35_A_MedianOf2SortedArraysSameSize {
     public static void main(String[] args) {
-        _18_A_MedianOf2SortedArraysSameSize obj = new _18_A_MedianOf2SortedArraysSameSize();
+        _35_A_MedianOf2SortedArraysSameSize obj = new _35_A_MedianOf2SortedArraysSameSize();
         int[] arr1 = {1, 12, 15, 26, 38};
         int[] arr2 = {2, 13, 17, 30, 45};
         obj.findMedian(arr1, arr2);

@@ -3,7 +3,7 @@ package com.dsa.app.final450.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class _17_A_UnionOfTwoArrays {
+public class _32_A_UnionOfTwoArrays {
     public static void main(String[] args) {
 
 
