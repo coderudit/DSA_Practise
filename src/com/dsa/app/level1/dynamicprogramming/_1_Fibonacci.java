@@ -21,18 +21,12 @@ public class _1_Fibonacci {
     }
 
     private static int findFibonacciIterative(int num) {
-        if (num <= 0)
-            return 0;
-        else if (num <= 2) {
-            return 1;
-        }
-
         int[] qb = new int[num + 1];
         qb[1] = 1;
         qb[2] = 1;
         for (int i = 3; i <= num; i++) {
             qb[i] = qb[i - 1] + qb[i - 2];
-        };
+        }
 
         return qb[num];
     }

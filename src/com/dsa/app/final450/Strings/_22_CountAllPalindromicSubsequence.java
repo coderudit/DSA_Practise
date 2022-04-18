@@ -1,12 +1,6 @@
 package com.dsa.app.final450.Strings;
 
-public class _8_LongestPalindromicString {
-    public static void main(String[] args) {
-        _8_LongestPalindromicString obj = new _8_LongestPalindromicString();
-        String str = "abccbc";
-        System.out.println(obj.dp_substring(str));
-    }
-
+public class _22_CountAllPalindromicSubsequence {
     /*
      * O(n*n*n) where O(n*n) for going through each substring
      * and O(n) for checking if a string is palindrome or not.
@@ -20,7 +14,7 @@ public class _8_LongestPalindromicString {
      * */
     private int dp_substring(String str) {
         boolean[][] table = new boolean[str.length()][str.length()];
-        int length = 0;
+        int count = 0;
         for (int gap = 0; gap < str.length(); gap++) {
             //All diagonals start at 0th row and their respective columns,
             //and ends at the last column.
@@ -39,13 +33,9 @@ public class _8_LongestPalindromicString {
                         table[row][column] = false;
                 }
                 if (table[row][column] == true)
-                    length = gap + 1;
+                    count++;
             }
         }
-        return length;
-    }
-
-    private int simple_manacherAlgo(String str){
-        return 1;
+        return count;
     }
 }
