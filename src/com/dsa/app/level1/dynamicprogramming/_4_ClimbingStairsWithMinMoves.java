@@ -3,6 +3,8 @@ package com.dsa.app.level1.dynamicprogramming;
 public class _4_ClimbingStairsWithMinMoves {
     public static void main(String[] args) {
         _4_ClimbingStairsWithMinMoves program = new _4_ClimbingStairsWithMinMoves();
+        //This stores the maximum number of jumps that it can make from that place,
+        //and we need to find out what is the minimum number of moves it should make.
         int[] varPathsArr = {3, 2, 4, 2, 0, 2, 3, 1, 2, 2};
         System.out.println(program.minNumberOfPathsTabulation(varPathsArr));
     }

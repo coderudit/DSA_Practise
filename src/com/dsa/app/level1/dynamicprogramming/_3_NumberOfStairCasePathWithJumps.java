@@ -7,6 +7,9 @@ public class _3_NumberOfStairCasePathWithJumps {
         System.out.println(numberOfPaths3);
     }
 
+    /* We want to find number of paths available from n to 0.
+     * dp[n] stores number of ways to reach from n to 0.
+     */
     private static int countNumberOfPathsTabulation(int[] varPathsArr) {
         if (varPathsArr.length <= 1)
             return 1;
