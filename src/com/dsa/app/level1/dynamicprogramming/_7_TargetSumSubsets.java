@@ -22,12 +22,12 @@ public class _7_TargetSumSubsets {
             for (int scoreIndex = 0; scoreIndex < dp[0].length; scoreIndex++) {
                 if (arrIndex == 0 && scoreIndex == 0) {
                     dp[arrIndex][scoreIndex] = true;
-                } else if (arrIndex == 0) {
+                } else if (arrIndex == 0) {//With 0 as an element, we can't score anything
                     dp[arrIndex][scoreIndex] = false;
-                } else if (scoreIndex == 0) {
+                } else if (scoreIndex == 0) {//0 score possible when no element
                     dp[arrIndex][scoreIndex] = true;
                 } else {//Current score can be achieved without including current element
-                    if (dp[arrIndex - 1][scoreIndex]) {
+                    if (dp[arrIndex - 1][scoreIndex]) { // Use this to carry on the previous state.
                         dp[arrIndex][scoreIndex] = true;
                     } else {//Current score can be achieved by including current element if and only if the previous sum was subtraction of it from the current sum.
                         int value = arr[arrIndex - 1];//value of the current element is stored at this location

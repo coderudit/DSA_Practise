@@ -9,13 +9,13 @@ public class _6_Goldmine {
         int[][] dp = new int[grid.length][grid[0].length];
         for (int colIndex = grid[0].length - 1; colIndex >= 0; colIndex--) {
             for (int rowIndex = grid.length - 1; rowIndex >= 0; rowIndex--) {
-                if (colIndex == grid[0].length - 1) {
+                if (colIndex == grid[0].length - 1) { //Final column, assign values as it is.
                     dp[rowIndex][colIndex] = grid[rowIndex][colIndex];
-                } else if (rowIndex == 0) {
+                } else if (rowIndex == 0) { //Check right and diagonally downwards
                     dp[rowIndex][colIndex] = grid[rowIndex][colIndex] +
                             Math.max(dp[rowIndex][colIndex + 1],
                                     dp[rowIndex + 1][colIndex + 1]);
-                } else if (rowIndex == grid.length - 1) {
+                } else if (rowIndex == grid.length - 1) { //Check right and diagonally upwards
                     dp[rowIndex][colIndex] = grid[rowIndex][colIndex] +
                             Math.max(dp[rowIndex - 1][colIndex + 1],
                                     dp[rowIndex][colIndex + 1]);

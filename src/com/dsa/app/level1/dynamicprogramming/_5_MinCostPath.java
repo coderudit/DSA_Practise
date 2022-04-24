@@ -12,11 +12,11 @@ public class _5_MinCostPath {
 
         for (int rowIndex = dp.length - 1; rowIndex >= 0; rowIndex--) {
             for (int colIndex = dp[0].length - 1; colIndex >= 0; colIndex--) {
-                if (rowIndex == dp.length - 1 && colIndex == dp[0].length - 1) {
+                if (rowIndex == dp.length - 1 && colIndex == dp[0].length - 1) { //Last row last column
                     dp[rowIndex][colIndex] = cost[rowIndex][colIndex];
-                } else if (rowIndex == dp.length - 1) {
+                } else if (rowIndex == dp.length - 1) { //Last row: Can only go right
                     dp[rowIndex][colIndex] = cost[rowIndex][colIndex + 1] + cost[rowIndex][colIndex];
-                } else if (colIndex == dp[0].length - 1) {
+                } else if (colIndex == dp[0].length - 1) { //Last column: Can only go down
                     dp[rowIndex][colIndex] = cost[rowIndex + 1][colIndex] + cost[rowIndex][colIndex];
                 } else {
                     dp[rowIndex][colIndex] = Math.min(cost[rowIndex][colIndex + 1], cost[rowIndex + 1][colIndex])

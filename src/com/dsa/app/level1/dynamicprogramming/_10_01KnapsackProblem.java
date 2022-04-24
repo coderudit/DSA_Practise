@@ -12,17 +12,21 @@ public class _10_01KnapsackProblem {
     private void chooseItems(int[] weights, int[] values, int bagCapacity) {
 
         int[][] dp = new int[weights.length + 1][bagCapacity + 1];
-        for (int itemIndex = 1; itemIndex < weights.length; itemIndex++) {
-            for (int bgcIndex = 1; bgcIndex <= bagCapacity; bgcIndex++) {
-                if (bgcIndex == weights[itemIndex]) {
-                    dp[bgcIndex][itemIndex] = Math.max(dp[bgcIndex][itemIndex - 1],
-                            values[itemIndex]);
-                } else {
-                    dp[bgcIndex][itemIndex] = Math.max(dp[bgcIndex - 1][itemIndex],
-                            dp[bgcIndex][itemIndex - 1]);
+        for (int itemIndex = 1; itemIndex < dp.length; itemIndex++) {
+            for (int bgcIndex = 1; bgcIndex < dp[0].length; bgcIndex++) {
+                dp[itemIndex][bgcIndex] = dp[itemIndex - 1][bgcIndex]; //Does not include current weight by default.
+                if (bgcIndex >= weights[itemIndex - 1]) {
+                    dp[itemIndex][bgcIndex] = Math.max(values[itemIndex - 1] + dp[itemIndex-1][bgcIndex - weights[itemIndex - 1]], dp[itemIndex][bgcIndex]);
                 }
             }
         }
-        System.out.println(dp[bagCapacity][weights.length]);
+        System.out.println(dp[weights.length][bagCapacity]);
+        for (int itemIndex = 0; itemIndex < dp.length; itemIndex++) {
+            for (int bgcIndex = 0; bgcIndex < dp[0].length; bgcIndex++) {
+                System.out.print(dp[itemIndex][bgcIndex] + " ");
+            }
+            System.out.println();
+        }
+
     }
 }
