@@ -1,4 +1,4 @@
-package com.dsa.app.level2.dynamicprogramming;
+package com.dsa.app.level2.dynamicprogramming.lis;
 
 import java.util.Arrays;
 

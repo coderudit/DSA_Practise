@@ -1,4 +1,4 @@
-package com.dsa.app.level2.dynamicprogramming;
+package com.dsa.app.level2.dynamicprogramming.lis;
 
 public class _8_LongestIncreasingSubsequence {
     public static void main(String[] args) {
