@@ -8,7 +8,7 @@ public class _8_LongestIncreasingSubsequence {
     }
 
     private void findLongestIncreasingSubsequence(int[] nums) {
-        //Stores the  longest subsequence till that index with that number as the last.
+        //Stores the longest subsequence till that index with that number as the last.
         int[] dp = new int[nums.length];
         int overallMax = 0;
         for (int index = 0; index < dp.length; index++) {
@@ -25,4 +25,5 @@ public class _8_LongestIncreasingSubsequence {
         }
         System.out.println(overallMax);
     }
+
 }
