@@ -1,4 +1,4 @@
-package com.dsa.app.level2.dynamicprogramming.lis;
+package com.dsa.app.level2.dynamicprogramming._2_lis;
 
 public class _9_MaximumSumIncreasingSubsequence {
     public static void main(String[] args) {

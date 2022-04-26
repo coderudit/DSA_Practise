@@ -1,5 +1,8 @@
-package com.dsa.app.level2.dynamicprogramming;
+package com.dsa.app.level2.dynamicprogramming._3_catalan;
 
+//CountNumberOfBSTWithNNodes
+//CountingValleysAndMountains
+//CombinationOfBalancedParentheses
 public class _14_CatalanNumber {
     public static void main(String[] args) {
         _14_CatalanNumber program = new _14_CatalanNumber();
@@ -12,8 +15,8 @@ public class _14_CatalanNumber {
         dp[1] = 1;
 
         for (int index = 2; index < dp.length; index++) {
-            for(int innerIndex = 0; innerIndex < index; innerIndex++) {
-                dp[index] += dp[innerIndex] * dp[index-innerIndex-1];
+            for (int innerIndex = 0; innerIndex < index; innerIndex++) {
+                dp[index] += dp[innerIndex] * dp[index - innerIndex - 1];
             }
         }
         System.out.println(dp[num]);

@@ -1,4 +1,4 @@
-package com.dsa.app.level2.dynamicprogramming.lis;
+package com.dsa.app.level2.dynamicprogramming._2_lis;
 
 import java.util.Arrays;
 import java.util.Scanner;
