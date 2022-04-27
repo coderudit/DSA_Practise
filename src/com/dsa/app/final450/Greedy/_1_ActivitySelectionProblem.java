@@ -22,7 +22,16 @@ public class _1_ActivitySelectionProblem {
 
         Arrays.sort(meetingArr);
 
-        int[] dp = new int[start.length];
+        System.out.print("Following activities are selected : ");
+        int prevActivitySelected = 0;
+        System.out.print(prevActivitySelected+" ");
+        for (int currentMeetingIndex = 1; currentMeetingIndex < meetingArr.length; currentMeetingIndex++) {
+            if (meetingArr[currentMeetingIndex].start >= meetingArr[prevActivitySelected].end) {
+                prevActivitySelected = currentMeetingIndex;
+                System.out.print(prevActivitySelected+" ");
+            }
+        }
+        /*int[] dp = new int[start.length];
         int overallMax = 0;
 
         for (int currentMeetingIndex = 0; currentMeetingIndex < meetingArr.length; currentMeetingIndex++) {
@@ -35,7 +44,7 @@ public class _1_ActivitySelectionProblem {
             dp[currentMeetingIndex] = max + 1;
             overallMax = Math.max(overallMax, dp[currentMeetingIndex]);
         }
-        System.out.println("Maximum meetings possible: " + overallMax);
+        System.out.println("Maximum meetings possible: " + overallMax);*/
     }
 
 }
@@ -51,9 +60,9 @@ class Meeting implements Comparable<Meeting> {
 
     @Override
     public int compareTo(Meeting o) {
-        if (this.start != o.start)
-            return this.start - o.start;
-        else
+        if (this.end != o.end)
             return this.end - o.end;
+        else
+            return this.start - o.start;
     }
 }
