@@ -23,28 +23,16 @@ public class _1_ActivitySelectionProblem {
         Arrays.sort(meetingArr);
 
         System.out.print("Following activities are selected : ");
+
         int prevActivitySelected = 0;
-        System.out.print(prevActivitySelected+" ");
+        System.out.print(prevActivitySelected + " ");
+
         for (int currentMeetingIndex = 1; currentMeetingIndex < meetingArr.length; currentMeetingIndex++) {
             if (meetingArr[currentMeetingIndex].start >= meetingArr[prevActivitySelected].end) {
                 prevActivitySelected = currentMeetingIndex;
-                System.out.print(prevActivitySelected+" ");
+                System.out.print(prevActivitySelected + " ");
             }
         }
-        /*int[] dp = new int[start.length];
-        int overallMax = 0;
-
-        for (int currentMeetingIndex = 0; currentMeetingIndex < meetingArr.length; currentMeetingIndex++) {
-            int max = 0;
-            for (int previousMeetingIndex = 0; previousMeetingIndex < currentMeetingIndex; previousMeetingIndex++) {
-                if (meetingArr[previousMeetingIndex].end < meetingArr[currentMeetingIndex].start && dp[previousMeetingIndex] > max) {
-                    max = dp[previousMeetingIndex];
-                }
-            }
-            dp[currentMeetingIndex] = max + 1;
-            overallMax = Math.max(overallMax, dp[currentMeetingIndex]);
-        }
-        System.out.println("Maximum meetings possible: " + overallMax);*/
     }
 
 }
