@@ -26,8 +26,8 @@ public class _2_NumberOfStairCasePath {
         return countPaths1 + countPaths2 + countPaths3;
     }
 
-    /* We want to find number of paths available from n to 0.
-     * dp[n] stores number of ways to reach from n to 0.
+    /* We want to find number of paths available from 0 to n.
+     * dp[n] stores number of ways to reach from 0 to n.
      */
     public static int countPathsWithTabulation(int num) {
         int[] dp = new int[num + 1];
