@@ -1,4 +1,4 @@
-package com.dsa.app.level1.linkedlists;
+package com.dsa.app.final450.LinkedList;
 
 public class LinkedListDS {
     private Node head;
@@ -7,6 +7,14 @@ public class LinkedListDS {
 
     public LinkedListDS() {
         size = 0;
+    }
+
+    public Node getHead() {
+        return head;
+    }
+
+    public Node getTail() {
+        return tail;
     }
 
     public void addLast(int value) {
@@ -154,18 +162,21 @@ public class LinkedListDS {
         }
     }
 
-    public void reverseLinkedListByPointer() {
+    /*
+    * Time complexity: O(n)
+    * Space complexity: O(1)*/
+    public Node reverseLinkedListByPointer(Node node) {
         Node previous = null;
         Node current = head;
+        Node currentNext = null;
         while (current != null) {
-            Node currentNext = current.getNext();
+            currentNext = current.getNext();
             current.setNext(previous);
             previous = current;
             current = currentNext;
         }
-        Node temp = head;
-        head = tail;
-        tail = temp;
+        node = previous;
+        return node;
     }
 
     public void removeAt(int index) {
@@ -185,6 +196,36 @@ public class LinkedListDS {
             Node newNext = tempNode.getNext().getNext();
             tempNode.setNext(newNext);
             size--;
+        }
+    }
+
+    private void oddEven() {
+        LinkedListDS odd = new LinkedListDS();
+        LinkedListDS even = new LinkedListDS();
+
+        while (getSize() > 0) {
+            int value = this.getFirst();
+            this.removeFirst();
+
+            if (value % 2 == 0)
+                even.addLast(value);
+            else
+                odd.addLast(value);
+        }
+
+        if (odd.getSize() > 0 && even.getSize() > 0) {
+            odd.getTail().setNext(even.getHead());
+            this.head = odd.getHead();
+            this.tail = even.getTail();
+            this.size = odd.getSize() + even.getSize();
+        } else if (odd.getSize() > 0) {
+            this.head = odd.getHead();
+            this.tail = odd.getTail();
+            this.size = odd.getSize();
+        }else if (even.getSize() > 0) {
+            this.head = even.getHead();
+            this.tail = even.getTail();
+            this.size = even.getSize();
         }
     }
 }

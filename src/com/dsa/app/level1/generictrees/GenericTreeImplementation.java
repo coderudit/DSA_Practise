@@ -13,11 +13,16 @@ public class GenericTreeImplementation {
         //TraversalGenericTree(root);
         //LevelOrderTraversal(root);
         //LevelOrderLineWiseTraversal(root);
-        //LevelOrderZigZagTraversal(root);
+        LevelOrderZigZagTraversal(root);
         //MirrorTree(root);
         //RemoveLeavesOfTree(root);
         //Linearize(root);
-        FindAnElement(root, 120);
+        //FindAnElement(root, 120);
+        /*var lst = NodeToRootPath(root, 110);
+        for (var item : lst) {
+            System.out.println(item);
+        }*/
+        //System.out.println(LowestCommonAncestor(root, 60, 100));
         System.out.println();
     }
 
@@ -164,12 +169,13 @@ public class GenericTreeImplementation {
             if (element.getValue() == -1) {
                 System.out.println("");
             } else {
-                System.out.println(element.getValue());
+                System.out.print(element.getValue() + " ");
                 if (element.getChildren().size() > 0) {
                     for (var child : element.getChildren()) {
                         queue.add(child);
                     }
-                    queue.add(new GTDS(-1));
+                    if (queue.peek().getValue() == -1)
+                        queue.add(new GTDS(-1));
                 }
             }
         }
@@ -187,7 +193,7 @@ public class GenericTreeImplementation {
 
         while (!mainStack.isEmpty()) {
             var element = mainStack.pop();
-            System.out.println(element.getValue());
+            System.out.print(element.getValue() + " ");
 
             if (level % 2 == 1) {
                 for (var child : element.getChildren()) {
@@ -211,7 +217,6 @@ public class GenericTreeImplementation {
 
     public static void MirrorTree(GTDS root) {
         Queue<GTDS> queue = new ArrayDeque<>();
-
         queue.add(root);
         while (queue.size() > 0) {
             var element = queue.remove();
@@ -266,6 +271,151 @@ public class GenericTreeImplementation {
 
         return false;
     }
+
+    public static List<Integer> NodeToRootPath(GTDS root, int key) {
+        if (root == null) {
+            return null;
+        }
+        if (root.getValue() == key) {
+            List<Integer> lst = new ArrayList<>();
+            lst.add(key);
+            return lst;
+        }
+
+        for (var child : root.getChildren()) {
+            List<Integer> lst = NodeToRootPath(child, key);
+            if (lst.size() > 0) {
+                lst.add(root.getValue());
+                return lst;
+            }
+        }
+
+        return new ArrayList<>();
+    }
+
+    public static Integer LowestCommonAncestor(GTDS root, int key1, int key2) {
+        var lst1 = NodeToRootPath(root, key1);
+        var lst2 = NodeToRootPath(root, key2);
+
+        int lst1Index = lst1.size() - 1;
+        int lst2Index = lst2.size() - 1;
+        while (lst1Index >= 0 && lst2Index >= 0 && lst1.get(lst1Index) == lst2.get(lst2Index)) {
+            lst1Index--;
+            lst2Index--;
+        }
+
+        return lst1.get(lst1Index + 1);
+
+    }
+
+    public static Integer DistanceBetweenNodes(GTDS root, int key1, int key2) {
+        var lst1 = NodeToRootPath(root, key1);
+        var lst2 = NodeToRootPath(root, key2);
+
+        int lst1Index = lst1.size() - 1;
+        int lst2Index = lst2.size() - 1;
+        while (lst1Index >= 0 && lst2Index >= 0 && lst1.get(lst1Index) == lst2.get(lst2Index)) {
+            lst1Index--;
+            lst2Index--;
+        }
+        lst1Index++;
+        lst2Index++;
+        return lst1Index + lst2Index;
+    }
+
+    public static boolean AreSimilar(GTDS node1, GTDS node2) {
+        if (node1.getChildren().size() != node2.getChildren().size()) {
+            return false;
+        }
+
+        for (int index = 0; index < node1.getChildren().size(); index++) {
+            if (!AreSimilar(node1.getChildren().get(index), node2.getChildren().get(index))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean AreTreesMirror(GTDS node1, GTDS node2) {
+        if (node1.getChildren().size() != node2.getChildren().size()) {
+            return false;
+        }
+
+        for (int index = 0; index < node1.getChildren().size(); index++) {
+            if (!AreTreesMirror(node1.getChildren().get(index), node2.getChildren().get(node2.getChildren().size() - index - 1))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean IsTreeSymmetric(GTDS node) {
+        return AreTreesMirror(node, node);
+    }
+
+    static GTDS predecessor;
+    static GTDS successor;
+    static int state = 0;
+
+    public static void PredecessorAndSuccessorOfAnElement(GTDS node, int data) {
+        if (state == 0) {
+            if (node.getValue() == data) {
+                state = 1;
+            } else {
+                predecessor = node;
+            }
+        } else if (state == 1) {
+            successor = node;
+            state = 2;
+        } else {
+            return;
+        }
+
+        for (var child : node.getChildren()) {
+            PredecessorAndSuccessorOfAnElement(child, data);
+        }
+    }
+
+    static int ceil;
+    static int floor;
+
+    public static void FloorAndCeilOfAnElement(GTDS node, int data) {
+        if (node.getValue() > data) {
+            if (node.getValue() < ceil) {
+                ceil = node.getValue();
+            }
+        }
+        if (node.getValue() < data) {
+            if (node.getValue() > floor) {
+                floor = node.getValue();
+            }
+        }
+
+        for (var child : node.getChildren()) {
+            FloorAndCeilOfAnElement(child, data);
+        }
+    }
+
+    public static void KthLargestElement(GTDS node, int k) {
+        //Use priority queue instead.
+    }
+
+    static int maxSum = Integer.MIN_VALUE;
+
+    public static Integer NodeWithMaxSubtreeSum(GTDS root) {
+        int subTreeSum = root.getValue();
+        for (int index = 0; index < root.getChildren().size(); index++) {
+            int childSum = NodeWithMaxSubtreeSum(root.getChildren().get(index));
+            subTreeSum += childSum;
+        }
+
+        maxSum = Math.max(subTreeSum, maxSum);
+        return subTreeSum;
+    }
+
+    public static Integer DiameterOfGenericTree(GTDS root) {
+        return -1;
+    }
 }
 
 class GTDS {
@@ -276,10 +426,6 @@ class GTDS {
     public GTDS(int value) {
         this.value = value;
         this.children = new ArrayList<>();
-    }
-
-    public void addChild(GTDS child) {
-        this.children.add(child);
     }
 
     public List<GTDS> getChildren() {
