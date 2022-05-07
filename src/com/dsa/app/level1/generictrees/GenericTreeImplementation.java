@@ -416,6 +416,8 @@ public class GenericTreeImplementation {
     public static Integer DiameterOfGenericTree(GTDS root) {
         return -1;
     }
+
+
 }
 
 class GTDS {

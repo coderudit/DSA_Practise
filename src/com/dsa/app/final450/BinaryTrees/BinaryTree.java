@@ -4,7 +4,7 @@ import java.util.*;
 
 public class BinaryTree {
     public static void main(String[] args) {
-        Node root = new Node(50);
+        /*Node root = new Node(50);
         root.setLeft(new Node(25));
         root.getLeft().setLeft(new Node(12));
         root.getLeft().setRight(new Node(37));
@@ -24,13 +24,26 @@ public class BinaryTree {
         System.out.println("Height: " + treeAttributes.getHeight());
         System.out.println("Size: " + treeAttributes.getSize());
         System.out.println("Max: " + treeAttributes.getMax());
-        System.out.println("Sum: " + treeAttributes.getSum());
+        System.out.println("Sum: " + treeAttributes.getSum());*/
 
         //binaryTree.preOrderTraversalOfBinaryTreeIterative(root);
         //var pathList = binaryTree.nodeToRootPath(root, 70);
         //for (var item : pathList) {
         //    System.out.println(item);
         //}
+
+
+        Node leftViewRoot = new Node(10);
+        leftViewRoot.setLeft(new Node(2));
+        leftViewRoot.setRight(new Node(3));
+        leftViewRoot.getLeft().setLeft(new Node(7));
+        leftViewRoot.getLeft().setRight(new Node(8));
+        leftViewRoot.getRight().setRight(new Node(15));
+        leftViewRoot.getRight().setLeft(new Node(12));
+        leftViewRoot.getRight().getRight().setLeft(new Node(14));
+
+        BinaryTree binaryTree = new BinaryTree();
+        binaryTree.leftViewOfTree(leftViewRoot);
     }
 
     Node root;
@@ -423,7 +436,6 @@ public class BinaryTree {
         return totalDistance;
     }
 
-
     DiaPair diameterOfATreeEfficient(Node root) {
         if (root == null) {
             DiaPair dp = new DiaPair(-1, 0);
@@ -441,7 +453,50 @@ public class BinaryTree {
         return result;
     }
 
+    static int totalTilt = 0;
+
+    int tiltOfTheTree(Node root) {
+        if (root == null) {
+            return 0;
+        }
+
+        int leftTilt = tiltOfTheTree(root.getLeft());
+        int rightTilt = tiltOfTheTree(root.getRight());
+
+        int diff = Math.abs(leftTilt - rightTilt);
+        totalTilt += diff;
+
+        return leftTilt + rightTilt + root.getValue();
+    }
+
+    public void leftViewOfTree(Node root) {
+        if (root == null)
+            return;
+
+
+        Queue<Node> queue = new LinkedList<>();
+        while (!queue.isEmpty()) {
+            int n = queue.size();
+            for (int index = 1; index <= n; index++) {
+                var node = queue.poll();
+
+                if (index == 1) {
+                    System.out.println(node.getValue());
+                }
+
+                if (node.getLeft() != null) {
+                    queue.add(node.getLeft());
+                }
+
+                if (node.getRight() != null) {
+                    queue.add(node.getRight());
+                }
+            }
+        }
+
+    }
 }
+
 
 class DiaPair {
     private int height;
