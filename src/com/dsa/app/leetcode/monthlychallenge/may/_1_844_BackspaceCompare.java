@@ -2,9 +2,9 @@ package com.dsa.app.leetcode.monthlychallenge.may;
 
 import java.util.Stack;
 
-public class _1_BackspaceCompare {
+public class _1_844_BackspaceCompare {
     public static void main(String[] args) {
-        _1_BackspaceCompare program = new _1_BackspaceCompare();
+        _1_844_BackspaceCompare program = new _1_844_BackspaceCompare();
         String s = "abcd";
         String t = "bbcd";
         System.out.println(program.backspaceCompare(s, t));

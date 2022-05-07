@@ -94,6 +94,16 @@ public class BinaryTree {
 
     }
 
+    private int height(Node root) {
+        if (root == null)
+            return -1;
+
+        int left = height(root.getLeft());
+        int right = height(root.getRight());
+
+        return Math.max(left, right) + 1;
+    }
+
     private int FindSizeSumMaxAndHeightOfATree(Node root, TreeAttributes treeAttributes) {
         if (root == null) {
             return -1;
@@ -279,7 +289,187 @@ public class BinaryTree {
         printKLevelsDown(root.getRight(), k - 1);
     }
 
+    List<Node> nodeToRootPathWithNodes(Node root, int key) {
+        if (root.getValue() == key) {
+            List<Node> foundList = new ArrayList<>();
+            foundList.add(root);
+            return foundList;
+        }
 
+        if (root.getLeft() != null) {
+            var returnList = nodeToRootPathWithNodes(root.getLeft(), key);
+            if (returnList.size() > 0) {
+                returnList.add(root);
+                return returnList;
+            }
+
+        }
+
+        if (root.getRight() != null) {
+            var returnList = nodeToRootPathWithNodes(root.getRight(), key);
+            if (returnList.size() > 0) {
+                returnList.add(root);
+                return returnList;
+            }
+
+        }
+
+        return new ArrayList<>();
+    }
+
+    void printKLevelsDownWithBlocker(Node root, int k, Node blocker) {
+        if (root == null || k < 0 || root == blocker) {
+            return;
+        }
+
+        if (k == 0) {
+            System.out.println(root.getValue());
+        }
+        printKLevelsDown(root.getLeft(), k - 1);
+        printKLevelsDown(root.getRight(), k - 1);
+    }
+
+    void printNodesKDistanceAway(Node root, int data, int k) {
+        var path = nodeToRootPathWithNodes(root, data);
+
+        for (int index = 0; index < path.size() && index <= k; index++) {
+            printKLevelsDownWithBlocker(path.get(index), k - index, index == 0 ? null : path.get(index - 1));
+        }
+
+    }
+
+    void printPathToLeaf(Node root, int min, int max, int sum, String psf) {
+        if (root.getLeft() == null && root.getRight() == null) {
+            sum += root.getValue();
+            if (sum >= min && sum <= max) {
+                System.out.println(psf + root.getValue());
+            }
+            return;
+        }
+        printPathToLeaf(root.getLeft(), min, max, sum + root.getValue(), psf + " " + root.getValue());
+        printPathToLeaf(root.getRight(), min, max, sum + root.getValue(), psf + " " + root.getValue());
+    }
+
+    Node leftClonedTree(Node root) {
+        if (root == null) {
+            return null;
+        }
+
+        Node lcr = leftClonedTree(root.getLeft());
+        Node rcr = leftClonedTree(root.getRight());
+
+        var newLeftNode = new Node(root.getValue());
+        newLeftNode.setLeft(lcr);
+        root.setLeft(newLeftNode);
+        root.setRight(rcr);
+
+        return root;
+    }
+
+    Node removeDuplicatedFromLeftClonedTree(Node root) {
+        if (root == null) {
+            return null;
+        }
+
+        Node lcr = removeDuplicatedFromLeftClonedTree(root.getLeft());
+        Node rcr = removeDuplicatedFromLeftClonedTree(root.getRight());
+
+        if (root.getValue() == root.getLeft().getValue()) {
+            root.setLeft(root.getLeft().getLeft());
+        }
+        root.setRight(rcr);
+
+        return root;
+    }
+
+    Node removeLeaves(Node root) {
+        if (root == null) {
+            return null;
+        }
+
+        if (root.getLeft() == null && root.getRight() == null) {
+            return null;
+        }
+
+        root.setLeft(removeLeaves(root.getLeft()));
+        root.setRight(removeLeaves(root.getRight()));
+
+        return root;
+    }
+
+    void printSingleChildNode(Node root) {
+        if (root == null) {
+            return;
+        }
+
+        if (root.getLeft() == null || root.getRight() == null) {
+            System.out.println(root.getValue());
+        }
+        printSingleChildNode(root.getLeft());
+        printSingleChildNode(root.getRight());
+    }
+
+    int diameterOfATree(Node root) {
+        if (root == null)
+            return 0;
+
+        int leftHeight = height(root.getLeft()) + 1;
+        int rightHeight = height(root.getRight()) + 1;
+
+        int leftDistance = diameterOfATree(root.getLeft());
+        int rightDistance = diameterOfATree(root.getRight());
+
+        int totalDistance = Math.max(leftHeight + rightHeight + 2, Math.max(leftDistance, rightDistance));
+        return totalDistance;
+    }
+
+
+    DiaPair diameterOfATreeEfficient(Node root) {
+        if (root == null) {
+            DiaPair dp = new DiaPair(-1, 0);
+            return dp;
+        }
+
+        DiaPair leftDP = diameterOfATreeEfficient(root.getLeft());
+        DiaPair rightDP = diameterOfATreeEfficient(root.getRight());
+
+        DiaPair result = new DiaPair();
+        result.setHeight(Math.max(leftDP.getHeight(), rightDP.getHeight()) + 1);
+
+        result.setDiameter(Math.max(leftDP.getHeight() + rightDP.getHeight() + 2, Math.max(leftDP.getDiameter(), rightDP.getDiameter())));
+
+        return result;
+    }
+
+}
+
+class DiaPair {
+    private int height;
+    private int diameter;
+
+    public DiaPair() {
+    }
+
+    public DiaPair(int height, int diameter) {
+        this.height = height;
+        this.diameter = diameter;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getDiameter() {
+        return diameter;
+    }
+
+    public void setDiameter(int diameter) {
+        this.diameter = diameter;
+    }
 }
 
 class Pair {

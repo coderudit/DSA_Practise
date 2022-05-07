@@ -3,7 +3,7 @@ package com.dsa.app.leetcode.monthlychallenge.may;
 import java.util.ArrayDeque;
 import java.util.Queue;
 
-public class _5_ImplementStackUsingQueues {
+public class _5_225_ImplementStackUsingQueues {
     Queue<Integer> queue1 = new ArrayDeque<>();
     Queue<Integer> queue2 = new ArrayDeque<>();
 
@@ -11,7 +11,7 @@ public class _5_ImplementStackUsingQueues {
 
     }
 
-    public _5_ImplementStackUsingQueues() {
+    public _5_225_ImplementStackUsingQueues() {
 
     }
 
