@@ -473,8 +473,8 @@ public class BinaryTree {
         if (root == null)
             return;
 
-
         Queue<Node> queue = new LinkedList<>();
+        queue.add(root);
         while (!queue.isEmpty()) {
             int n = queue.size();
             for (int index = 1; index <= n; index++) {
@@ -494,6 +494,136 @@ public class BinaryTree {
             }
         }
 
+    }
+
+    public List<Integer> leftViewOfTreeOptimized(Node root) {
+        if (root == null)
+            return new ArrayList<>();
+
+        List<Integer> leftViewList = new ArrayList<>();
+        leftViewOfTreeUtil(root, 1, leftViewList);
+        for (var item : leftViewList) {
+            System.out.println(item);
+        }
+        return leftViewList;
+    }
+
+    private void leftViewOfTreeUtil(Node root, int level, List<Integer> list) {
+        if (root == null)
+            return;
+
+        if (list.size() < level) {
+            list.add(root.getValue());
+        }
+        leftViewOfTreeUtil(root.getLeft(), level + 1, list);
+        leftViewOfTreeUtil(root.getRight(), level + 1, list);
+    }
+
+    public void rightViewOfTree(Node root) {
+        if (root == null)
+            return;
+
+        Queue<Node> queue = new LinkedList<>();
+        queue.add(root);
+
+        while (!queue.isEmpty()) {
+            int n = queue.size();
+
+            boolean firstOcurence = true;
+            for (int index = n; index >= 1; index--) {
+                var node = queue.poll();
+                if (firstOcurence) {
+                    System.out.println(node.getValue());
+                    firstOcurence = false;
+                }
+
+                if (node.getRight() != null) {
+                    queue.add(node.getRight());
+                }
+
+                if (node.getLeft() != null) {
+                    queue.add(node.getLeft());
+                }
+
+            }
+        }
+    }
+
+    public List<Integer> rightViewOfTreeOptimized(Node root) {
+        if (root == null)
+            return new ArrayList<>();
+
+        List<Integer> rightViewList = new ArrayList<>();
+        rightViewOfTreeUtil(root, 1, rightViewList);
+        for (var item : rightViewList) {
+            System.out.println(item);
+        }
+        return rightViewList;
+    }
+
+    private void rightViewOfTreeUtil(Node root, int level, List<Integer> list) {
+        if (root == null)
+            return;
+
+        if (list.size() < level) {
+            list.add(root.getValue());
+        }
+
+        rightViewOfTreeUtil(root.getRight(), level + 1, list);
+        rightViewOfTreeUtil(root.getLeft(), level + 1, list);
+    }
+
+    private boolean isTreeBalanced(Node root) {
+        int diff = heightModified(root);
+        return diff == -1 ? false : true;
+    }
+
+    private int heightModified(Node root) {
+        if (root == null)
+            return 0;
+
+        int left = heightModified(root.getLeft());
+        int right = heightModified(root.getRight());
+        if (left == -1 || right == -1)
+            return -1;
+
+        int diff = Math.abs(left - right);
+
+        return diff > 1 ? -1 : Math.max(left, right) + 1;
+    }
+
+    private void diagonalTree(Node root) {
+        Queue<Node> mainQueue = new LinkedList<>();
+        mainQueue.add(root);
+
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        int level = 0;
+        map.put(level, new ArrayList<>());
+
+
+        while (mainQueue.size() > 0) {
+            int sizeOfQueue = mainQueue.size();
+
+            List<Integer> currentDiagonalList = new ArrayList<>();
+
+            while(sizeOfQueue > 0){
+                var currentNode = mainQueue.remove();
+
+                while(currentNode != null){
+                    currentDiagonalList.add(currentNode.getValue());
+
+                    if(currentNode.getLeft() != null){
+                        mainQueue.add(currentNode.getLeft());
+                    }
+
+                    currentNode = currentNode.getRight();
+                }
+            }
+
+            map.put(level, currentDiagonalList);
+            level++;
+
+        }
     }
 }
 
