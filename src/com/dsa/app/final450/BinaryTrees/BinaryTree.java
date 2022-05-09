@@ -573,7 +573,61 @@ public class BinaryTree {
         rightViewOfTreeUtil(root.getLeft(), level + 1, list);
     }
 
-    private boolean isTreeBalanced(Node root) {
+    public List<Integer> topViewOfTree(Node root) {
+        if (root == null)
+            return null;
+
+        Map<Integer, Integer> map = new TreeMap<>();
+
+        Queue<TopViewPair> queue = new LinkedList<>();
+        queue.add(new TopViewPair(root, 0));
+
+        while (queue.size() > 0) {
+            var item = queue.remove();
+            if (!map.containsKey(item.getHorizontalDistance())) {
+                map.put(item.getHorizontalDistance(), item.getNode().getValue());
+            }
+
+            if (root.getLeft() != null)
+                queue.add(new TopViewPair(root.getLeft(), item.getHorizontalDistance() - 1));
+
+            if (root.getRight() != null)
+                queue.add(new TopViewPair(root.getRight(), item.getHorizontalDistance() + 1));
+        }
+        List<Integer> lst = new ArrayList<>();
+        for (var item : map.keySet()) {
+            lst.add(map.get(item));
+        }
+        return lst;
+    }
+
+    public List<Integer> bottomViewOfTree(Node root) {
+        if (root == null)
+            return null;
+
+        Map<Integer, Integer> map = new TreeMap<>();
+
+        Queue<TopViewPair> queue = new LinkedList<>();
+        queue.add(new TopViewPair(root, 0));
+
+        while (queue.size() > 0) {
+            var item = queue.remove();
+            map.put(item.getHorizontalDistance(), item.getNode().getValue());
+
+            if (root.getLeft() != null)
+                queue.add(new TopViewPair(root.getLeft(), item.getHorizontalDistance() - 1));
+
+            if (root.getRight() != null)
+                queue.add(new TopViewPair(root.getRight(), item.getHorizontalDistance() + 1));
+        }
+        List<Integer> lst = new ArrayList<>();
+        for (var item : map.keySet()) {
+            lst.add(map.get(item));
+        }
+        return lst;
+    }
+
+    public boolean isTreeBalanced(Node root) {
         int diff = heightModified(root);
         return diff == -1 ? false : true;
     }
@@ -592,7 +646,7 @@ public class BinaryTree {
         return diff > 1 ? -1 : Math.max(left, right) + 1;
     }
 
-    private void diagonalTree(Node root) {
+    public void diagonalTree(Node root) {
         Queue<Node> mainQueue = new LinkedList<>();
         mainQueue.add(root);
 
@@ -606,13 +660,13 @@ public class BinaryTree {
 
             List<Integer> currentDiagonalList = new ArrayList<>();
 
-            while(sizeOfQueue > 0){
+            while (sizeOfQueue > 0) {
                 var currentNode = mainQueue.remove();
 
-                while(currentNode != null){
+                while (currentNode != null) {
                     currentDiagonalList.add(currentNode.getValue());
 
-                    if(currentNode.getLeft() != null){
+                    if (currentNode.getLeft() != null) {
                         mainQueue.add(currentNode.getLeft());
                     }
 
@@ -627,6 +681,31 @@ public class BinaryTree {
     }
 }
 
+class TopViewPair {
+    private Node node;
+    private int horizontalDistance;
+
+    public TopViewPair(Node node, int horizontalDistance) {
+        this.node = node;
+        this.horizontalDistance = horizontalDistance;
+    }
+
+    public Node getNode() {
+        return node;
+    }
+
+    public void setNode(Node node) {
+        this.node = node;
+    }
+
+    public int getHorizontalDistance() {
+        return horizontalDistance;
+    }
+
+    public void setHorizontalDistance(int horizontalDistance) {
+        this.horizontalDistance = horizontalDistance;
+    }
+}
 
 class DiaPair {
     private int height;
