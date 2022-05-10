@@ -33,7 +33,7 @@ public class BinaryTree {
         //}
 
 
-        Node leftViewRoot = new Node(10);
+        /*Node leftViewRoot = new Node(10);
         leftViewRoot.setLeft(new Node(2));
         leftViewRoot.setRight(new Node(3));
         leftViewRoot.getLeft().setLeft(new Node(7));
@@ -43,7 +43,14 @@ public class BinaryTree {
         leftViewRoot.getRight().getRight().setLeft(new Node(14));
 
         BinaryTree binaryTree = new BinaryTree();
-        binaryTree.leftViewOfTree(leftViewRoot);
+        binaryTree.leftViewOfTree(leftViewRoot);*/
+
+        BinaryTree binaryTree = new BinaryTree();
+        //binaryTree.binaryTreeFromString("4(2(1)(3))(6(5))");
+
+        int[] inOrder = {3, 1, 4, 0, 5, 2};
+        int[] preOrder = {0, 1, 3, 4, 2, 5};
+        binaryTree.createTree(inOrder, preOrder);
     }
 
     Node root;
@@ -678,6 +685,114 @@ public class BinaryTree {
             level++;
 
         }
+    }
+
+    public void boundaryTraversal(Node root) {
+        List<Integer> traversalList = new ArrayList<>();
+    }
+
+    private boolean isLeaf(Node root) {
+        return root.getLeft() == null && root.getRight() == null;
+    }
+
+    private void leftBoundaryTraversal(Node root, List<Integer> traversalList) {
+        while (root.getLeft() != null && root.getRight() != null) {
+            traversalList.add(root.getValue());
+            if (root.getLeft() != null)
+                root = root.getLeft();
+            else
+                root = root.getRight();
+        }
+    }
+
+    private void addLeaves(Node root, List<Integer> traversalList) {
+        if (root == null) {
+            traversalList.add(root.getValue());
+        }
+        addLeaves(root.getLeft(), traversalList);
+        addLeaves(root.getRight(), traversalList);
+    }
+
+    private void rightBoundaryTraversal(Node root, List<Integer> traversalList) {
+        List<Integer> tempList = new ArrayList<>();
+        while (root.getLeft() != null && root.getRight() != null) {
+            tempList.add(root.getValue());
+            if (root.getLeft() != null)
+                root = root.getRight();
+            else
+                root = root.getLeft();
+        }
+
+        for (int index = tempList.size() - 1; index >= 0; index--) {
+            traversalList.add(tempList.get(index));
+        }
+    }
+
+    //-4(2(1)(3))(6(5))
+    private Node binaryTreeFromString(String str) {
+        if(str== null || str.length() == 0)
+            return null;
+
+        Stack<Node> stack = new Stack<>();
+        for (int index = 0; index < str.length(); index++) {
+            Character c = str.charAt(index);
+            if (str.charAt(index) != ')') {
+               // stack.push(str.charAt(index));
+            } else {
+                stack.pop();
+            }
+        }
+        return stack.pop();
+    }
+
+    Node btPrev = null;
+    Node btHead = null;
+
+    private void binaryTreeToDoublyLinkedList(Node root) {
+        if (root == null)
+            return;
+
+        binaryTreeToDoublyLinkedList(root.getLeft());
+
+        if (btPrev == null) {
+            btHead = root;
+        } else {
+            root.setLeft(btPrev);
+            btPrev.setRight(root);
+        }
+        btPrev = root;
+        binaryTreeToDoublyLinkedList(root.getRight());
+    }
+
+
+    public Node createTree(int[] inOrder, int[] preOrder){
+        return createTreeHelper(inOrder, preOrder, 0, inOrder.length);
+    }
+
+    private static int currentIndex=0;
+    private Node createTreeHelper(int[] inOrder, int[] preOrder, int startIndex, int endIndex){
+        if(currentIndex >= preOrder.length)
+            return null;
+
+        Node node = new Node( preOrder[currentIndex]);
+        currentIndex++;
+
+        if(startIndex == endIndex)
+            return node;
+
+        int mid = linearSearch(inOrder, node.getValue());
+        node.setLeft(createTreeHelper(inOrder, preOrder, startIndex, mid-1));
+        node.setRight(createTreeHelper(inOrder, preOrder, mid+1, endIndex));
+
+        return node;
+    }
+
+    private int linearSearch(int[] items, int key){
+        for(int i = 0; i < items.length; i++){
+            if(items[i] ==key)
+                return i;
+        }
+        return -1;
     }
 }
 
