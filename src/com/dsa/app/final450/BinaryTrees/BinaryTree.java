@@ -730,14 +730,14 @@ public class BinaryTree {
 
     //-4(2(1)(3))(6(5))
     private Node binaryTreeFromString(String str) {
-        if(str== null || str.length() == 0)
+        if (str == null || str.length() == 0)
             return null;
 
         Stack<Node> stack = new Stack<>();
         for (int index = 0; index < str.length(); index++) {
             Character c = str.charAt(index);
             if (str.charAt(index) != ')') {
-               // stack.push(str.charAt(index));
+                // stack.push(str.charAt(index));
             } else {
                 stack.pop();
             }
@@ -765,35 +765,83 @@ public class BinaryTree {
     }
 
 
-    public Node createTree(int[] inOrder, int[] preOrder){
+    public Node createTree(int[] inOrder, int[] preOrder) {
         return createTreeHelper(inOrder, preOrder, 0, inOrder.length);
     }
 
-    private static int currentIndex=0;
-    private Node createTreeHelper(int[] inOrder, int[] preOrder, int startIndex, int endIndex){
-        if(currentIndex >= preOrder.length)
+    private static int currentIndex = 0;
+
+    private Node createTreeHelper(int[] inOrder, int[] preOrder, int startIndex, int endIndex) {
+        if (currentIndex >= preOrder.length)
             return null;
 
-        Node node = new Node( preOrder[currentIndex]);
+        Node node = new Node(preOrder[currentIndex]);
         currentIndex++;
 
-        if(startIndex == endIndex)
+        if (startIndex == endIndex)
             return node;
 
         int mid = linearSearch(inOrder, node.getValue());
-        node.setLeft(createTreeHelper(inOrder, preOrder, startIndex, mid-1));
-        node.setRight(createTreeHelper(inOrder, preOrder, mid+1, endIndex));
+        node.setLeft(createTreeHelper(inOrder, preOrder, startIndex, mid - 1));
+        node.setRight(createTreeHelper(inOrder, preOrder, mid + 1, endIndex));
 
         return node;
     }
 
-    private int linearSearch(int[] items, int key){
-        for(int i = 0; i < items.length; i++){
-            if(items[i] ==key)
+    private int linearSearch(int[] items, int key) {
+        for (int i = 0; i < items.length; i++) {
+            if (items[i] == key)
                 return i;
         }
         return -1;
     }
+
+    public void TransformToSumTree(Node node) {
+        TransformToSumTreeHelper(node);
+    }
+
+    private int TransformToSumTreeHelper(Node node) {
+        if (node == null)
+            return 0;
+
+        int oldValue = node.getValue();
+        int leftValue = TransformToSumTreeHelper(node.getLeft());
+        int rightValue = TransformToSumTreeHelper(node.getRight());
+        node.setValue(leftValue + rightValue);
+
+        return node.getValue() + oldValue;
+    }
+
+    // Binary tree matching section starts
+    //1. Check if a binary tree is subtree of another binary tree | Set 1
+    //Worst case complexity: O(nm) i.e. O(n*n)
+    public boolean isSubTree(Node root1, Node root2) {
+        if (root2 == null)
+            return true;
+
+        if (root1 == null)
+            return false;
+
+        if(areIdentical(root1, root2))
+            return true;
+
+        return isSubTree(root1.getLeft(), root2) || isSubTree(root1.getRight(), root2);
+    }
+
+
+    private boolean areIdentical(Node root1, Node root2) {
+        if (root1 == null && root2 == null) {
+            return true;
+        }
+
+        if (root1 == null || root2 == null) {
+            return false;
+        }
+
+        return root.getValue() == root2.getValue() && areIdentical(root1.getLeft(), root2.getLeft()) && areIdentical(root1.getRight(), root.getRight());
+    }
+
+    // Binary tree matching section ends
 }
 
 class TopViewPair {
