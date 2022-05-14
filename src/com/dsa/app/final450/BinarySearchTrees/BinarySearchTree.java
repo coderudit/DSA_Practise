@@ -62,35 +62,34 @@ public class BinarySearchTree {
     }
 
     public Node deleteNode(Node root, int key) {
-        if (root == null)
-            return null;
+        if(root==null) return null;
 
-        // Key is greater than root's key
-        if (root.key < key) {
-            root.right = deleteNode(root.right, key);
-        } else if (root.key > key) { // Key is smaller than root's key
-            root.left = deleteNode(root.left, key);
-        } else {
-            //No child exists for a given key
-            if (root.left == null && root.right == null) {
-                return null;
-            } else if (root.left != null) {//Left child exists for a given key
-                return root.left;
-            } else if (root.right != null) {//Right child exists for a given key
-                return root.right;
-            } else {//Left and right child both exists for a given key
-                int lmax = max(root.left);
-                root.key = lmax;
-                root.left = deleteNode(root.left, lmax);
-                return root;
-            }
+        if(key<root.key){
+            root.left=deleteNode(root.left,key);
+        }else if(key>root.key){
+            root.right=deleteNode(root.right,key);
+        }else{
+            if(root.left==null) return root.right;
+            else if(root.right==null) return root.left;
+
+            root.key=min(root.right);
+
+            root.right=deleteNode(root.right,root.key);
         }
         return root;
     }
 
     private int max(Node root) {
-        if (root.left == null && root.right == null)
-            return root.key;
-        return max(root.right);
+        while(root.right!=null){
+            root=root.right;
+        }
+        return root.key;
+    }
+
+    private int min(Node root) {
+        while(root.left!=null){
+            root=root.left;
+        }
+        return root.key;
     }
 }
