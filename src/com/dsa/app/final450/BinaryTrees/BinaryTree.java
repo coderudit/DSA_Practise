@@ -15,7 +15,7 @@ public class BinaryTree {
         root.getRight().setRight(new Node(87));
         root.getRight().getLeft().setRight(new Node(70));
 
-        BinaryTree binaryTree = new BinaryTree();
+        BinarySearchTree binaryTree = new BinarySearchTree();
         binaryTree.DisplayBinaryTree(root);
 
         TreeAttributes treeAttributes = new TreeAttributes();
@@ -42,7 +42,7 @@ public class BinaryTree {
         leftViewRoot.getRight().setLeft(new Node(12));
         leftViewRoot.getRight().getRight().setLeft(new Node(14));
 
-        BinaryTree binaryTree = new BinaryTree();
+        BinarySearchTree binaryTree = new BinarySearchTree();
         binaryTree.leftViewOfTree(leftViewRoot);*/
 
         BinaryTree binaryTree = new BinaryTree();
@@ -149,6 +149,7 @@ public class BinaryTree {
         System.out.println("In Postorder: " + node.getValue());
     }
 
+    // Section: Level order traversal start
     void levelOrderTraversalOfBinaryTree() {
         if (root == null)
             return;
@@ -170,18 +171,157 @@ public class BinaryTree {
         }
     }
 
+    List<List<Integer>> levelOrderTraversalAsListForBinaryTree() {
+        var values = new ArrayList<List<Integer>>();
+
+        if (root == null)
+            return values;
+
+        Queue<Node> queue = new ArrayDeque<>();
+        queue.add(root);
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            int count = 0;
+            List<Integer> innerValues = new ArrayList<>();
+
+            while (count < size) {
+                var element = queue.remove();
+                innerValues.add(element.getValue());
+
+                if (element.getLeft() != null) {
+                    queue.add(element.getLeft());
+                }
+
+                if (element.getRight() != null) {
+                    queue.add(element.getRight());
+                }
+                count++;
+            }
+            values.add(innerValues);
+        }
+        return values;
+    }
+
+    public List<List<Integer>> levelOrderTraversalList(Node root) {
+        List<List<Integer>> outerList = new ArrayList<>();
+        LevelOrderTraversalUtil(root, outerList, 0);
+        return outerList;
+    }
+
+    private static void LevelOrderTraversalUtil(Node root, List<List<Integer>> outerList, int level) {
+        if (root == null)
+            return;
+
+        if (level >= outerList.size()) {
+            outerList.add(new ArrayList<>());
+        }
+
+        outerList.get(level).add(root.getValue());
+
+        LevelOrderTraversalUtil(root.getLeft(), outerList, level + 1);
+        LevelOrderTraversalUtil(root.getRight(), outerList, level + 1);
+    }
+
+    // Level order traversal ends
+
     /*
      * Time Complexity: O(n) where n is the number of nodes in the binary tree
      * Auxiliary Space: O(n) where n is the number of nodes in the binary tree
      * */
-    void reverseLevelOrderTraversalOfBinaryTree(Node root) {
+    void reverseLevelOrderTraversalOfBinaryTree(Node node) {
+        Stack<Node> S = new Stack();
+        Queue<Node> Q = new LinkedList();
+        Q.add(node);
+
+        // Do something like normal level order traversal order.Following
+        // are the differences with normal level order traversal
+        // 1) Instead of printing a node, we push the node to stack
+        // 2) Right subtree is visited before left subtree
+        while (Q.isEmpty() == false) {
+            /* Dequeue node and make it root */
+            node = Q.peek();
+            Q.remove();
+            S.push(node);
+
+            /* Enqueue right child */
+            if (node.getRight() != null)
+                // NOTE: RIGHT CHILD IS ENQUEUED BEFORE LEFT
+                Q.add(node.getRight());
+
+            /* Enqueue left child */
+            if (node.getLeft() != null)
+                Q.add(node.getLeft());
+        }
+
+        // Now pop all items from stack one by one and print them
+        while (S.empty() == false) {
+            node = S.peek();
+            System.out.print(node.getValue() + " ");
+            S.pop();
+        }
+    }
+
+    //https://leetcode.com/problems/binary-tree-level-order-traversal/discuss/2030270/Java-recursive-solution
+    //https://leetcode.com/problems/binary-tree-level-order-traversal-ii/discuss/2030283/Java-recursive-solution-without-reverse
+    List<List<Integer>> reverseLevelOrderTraversalList(Node node) {
+        var values = new ArrayList<List<Integer>>();
+
+        if (node == null)
+            return values;
+
+        Stack<Node> S = new Stack();
+        Queue<Node> Q = new LinkedList();
+        Q.add(node);
+
+        while (Q.isEmpty() == false) {
+            int n = Q.size();
+            int count = 0;
+
+            while (count < n) {
+                node = Q.remove();
+                S.push(node);
+
+                /* Enqueue right child */
+                if (node.getRight() != null)
+                    // NOTE: RIGHT CHILD IS ENQUEUED BEFORE LEFT
+                    Q.add(node.getRight());
+
+                /* Enqueue left child */
+                if (node.getLeft() != null)
+                    Q.add(node.getLeft());
+
+                count++;
+            }
+
+            List<Integer> innerValues = new ArrayList<>();
+            while (S.size() > 0) {
+                innerValues.add(S.pop().getValue());
+            }
+            values.add(innerValues);
+        }
+        Collections.reverse(values);
+        return values;
+    }
+
+    public List<List<Integer>> reverseLevelOrderTraversal(Node root) {
+        List<List<Integer>> outerList = new ArrayList<>();
+        LevelOrderTraversalUtil(root, outerList, 0);
+        return outerList;
+    }
+
+    private static void reverseLevelOrderTraversalUtil(Node root, List<List<Integer>> outerList, int level) {
         if (root == null)
             return;
 
-        reverseLevelOrderTraversalOfBinaryTree(root.getLeft());
-        System.out.println(root.getValue());
-        reverseLevelOrderTraversalOfBinaryTree(root.getRight());
-        System.out.println(root.getValue());
+        if (level >= outerList.size()) {
+            outerList.add(new ArrayList<>());
+        }
+
+        LevelOrderTraversalUtil(root.getLeft(), outerList, level + 1);
+        LevelOrderTraversalUtil(root.getRight(), outerList, level + 1);
+
+        outerList.get(level).add(root.getValue());
     }
 
     /*https://www.techiedelight.com/preorder-tree-traversal-iterative-recursive/*/
@@ -458,6 +598,25 @@ public class BinaryTree {
         result.setDiameter(Math.max(leftDP.getHeight() + rightDP.getHeight() + 2, Math.max(leftDP.getDiameter(), rightDP.getDiameter())));
 
         return result;
+    }
+
+    int max = 0;
+
+    public int diameterOfBinaryTreeOptimized(Node root) {
+        heightDia(root);
+        return max;
+    }
+
+    // the diameter is nothing but the max height of left + max height of right
+    int heightDia(Node root) {
+        //Base case
+        if (root == null) {
+            return 0;
+        }
+        int left = heightDia(root.getLeft());   // max height of left subtree
+        int right = heightDia(root.getRight()); // max height of right subtree
+        max = Math.max(left + right, max); // updating max before returning the value
+        return Math.max(left, right) + 1;// returning the max height
     }
 
     static int totalTilt = 0;
@@ -816,13 +975,14 @@ public class BinaryTree {
     //1. Check if a binary tree is subtree of another binary tree | Set 1
     //Worst case complexity: O(nm) i.e. O(n*n)
     public boolean isSubTree(Node root1, Node root2) {
-        if (root2 == null)
-            return true;
-
         if (root1 == null)
             return false;
 
-        if(areIdentical(root1, root2))
+        if (root2 == null)
+            return true;
+
+
+        if (areIdentical(root1, root2))
             return true;
 
         return isSubTree(root1.getLeft(), root2) || isSubTree(root1.getRight(), root2);
@@ -830,16 +990,13 @@ public class BinaryTree {
 
 
     private boolean areIdentical(Node root1, Node root2) {
-        if (root1 == null && root2 == null) {
-            return true;
-        }
-
         if (root1 == null || root2 == null) {
-            return false;
+            return root1 == null && root2 == null;
         }
 
         return root.getValue() == root2.getValue() && areIdentical(root1.getLeft(), root2.getLeft()) && areIdentical(root1.getRight(), root.getRight());
     }
+
 
     // Binary tree matching section ends
 }
