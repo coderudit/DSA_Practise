@@ -13,11 +13,11 @@ public class BinarySearchTree {
 
     class Node {
         int key;
-        Node left, right;
+        Node left, right, next;
 
         public Node(int item) {
             key = item;
-            left = right = null;
+            left = right = next = null;
         }
     }
 
@@ -122,5 +122,41 @@ public class BinarySearchTree {
             findPreSuc(root.right, p, s, key);
         }
 
+    }
+
+    public boolean isBST(Node root) {
+        return isBSTUtil(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+
+    private boolean isBSTUtil(Node root, int min, int max) {
+        if (root == null)
+            return true;
+
+        if (root.key < min || root.key > max) {
+            return false;
+        }
+
+        return isBSTUtil(root, min, root.key - 1) && isBSTUtil(root, root.key + 1, max);
+    }
+
+    Node next = null;
+
+    public void populateNext(Node root) {
+        if (root != null) {
+            populateNext(root.right);
+            root.next = next;
+
+            next = root;
+            populateNext(root.left);
+        }
+    }
+
+    public Node LCA(Node root, int n1, int n2) {
+        if (n1 > root.key && n2 > root.key)
+            return LCA(root.right, n1, n2);
+        else if (n1 < root.key && n2 < root.key)
+            return LCA(root.left, n1, n2);
+        else
+            return root;
     }
 }
