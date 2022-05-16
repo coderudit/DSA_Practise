@@ -62,34 +62,65 @@ public class BinarySearchTree {
     }
 
     public Node deleteNode(Node root, int key) {
-        if(root==null) return null;
+        if (root == null) return null;
 
-        if(key<root.key){
-            root.left=deleteNode(root.left,key);
-        }else if(key>root.key){
-            root.right=deleteNode(root.right,key);
-        }else{
-            if(root.left==null) return root.right;
-            else if(root.right==null) return root.left;
+        if (key < root.key) {
+            root.left = deleteNode(root.left, key);
+        } else if (key > root.key) {
+            root.right = deleteNode(root.right, key);
+        } else {
+            if (root.left == null) return root.right;
+            else if (root.right == null) return root.left;
 
-            root.key=min(root.right);
+            root.key = min(root.right);
 
-            root.right=deleteNode(root.right,root.key);
+            root.right = deleteNode(root.right, root.key);
         }
         return root;
     }
 
     private int max(Node root) {
-        while(root.right!=null){
-            root=root.right;
+        while (root.right != null) {
+            root = root.right;
         }
         return root.key;
     }
 
     private int min(Node root) {
-        while(root.left!=null){
-            root=root.left;
+        while (root.left != null) {
+            root = root.left;
         }
         return root.key;
+    }
+
+    public static void findPreSuc(Node root, Node p, Node s, int key) {
+        if (root == null)
+            return;
+
+        if (root.key == key) {
+            if (root.left != null) {
+                Node temp = root.left;
+                while (temp.right != null) {
+                    temp = temp.right;
+                }
+                p = temp;
+            }
+            if (root.right != null) {
+                Node temp = root.right;
+                while (temp.left != null) {
+                    temp = temp.left;
+                }
+                s = temp;
+            }
+        }
+
+        if (key < root.key) {
+            s = root;
+            findPreSuc(root.left, p, s, key);
+        } else {
+            p = root;
+            findPreSuc(root.right, p, s, key);
+        }
+
     }
 }
