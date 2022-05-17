@@ -1,14 +1,20 @@
 package com.dsa.app.final450.BinarySearchTrees;
 
+import java.util.Stack;
+
 public class BinarySearchTree {
     public static void main(String[] args) {
-        BinarySearchTree tree = new BinarySearchTree(5);
-        tree.insert(3);
+        BinarySearchTree tree = new BinarySearchTree();
+        /*tree.insert(3);
         tree.insert(6);
         tree.insert(2);
         tree.insert(4);
         tree.insert(7);
-        tree.deleteNode(tree.root, 3);
+        tree.deleteNode(tree.root, 3);*/
+
+        int[] preOrder = {10, 5, 1, 7, 40, 50};
+        tree.constructBSTFromPreorder(preOrder);
+
     }
 
     class Node {
@@ -159,4 +165,30 @@ public class BinarySearchTree {
         else
             return root;
     }
+
+    public Node constructBSTFromPreorder(int[] preOrder) {
+        Node root = new Node(preOrder[0]);
+        Stack<Node> stack = new Stack<>();
+        stack.push(root);
+
+        for (int index = 1; index < preOrder.length; index++) {
+            Node temp = null;
+
+            while (stack.size() > 0 && preOrder[index] > stack.peek().key) {
+                temp = stack.pop();
+            }
+
+            if (temp != null) {
+                temp.right = new Node(preOrder[index]);
+                stack.push(temp.right);
+            } else {
+                temp = stack.peek();
+                temp.left = new Node(preOrder[index]);
+                stack.push(temp.left);
+            }
+
+        }
+        return root;
+    }
 }
+
