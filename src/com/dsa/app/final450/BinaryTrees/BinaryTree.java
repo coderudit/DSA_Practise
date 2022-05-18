@@ -33,7 +33,7 @@ public class BinaryTree {
         //}
 
 
-        /*Node leftViewRoot = new Node(10);
+        Node leftViewRoot = new Node(10);
         leftViewRoot.setLeft(new Node(2));
         leftViewRoot.setRight(new Node(3));
         leftViewRoot.getLeft().setLeft(new Node(7));
@@ -41,11 +41,13 @@ public class BinaryTree {
         leftViewRoot.getRight().setRight(new Node(15));
         leftViewRoot.getRight().setLeft(new Node(12));
         leftViewRoot.getRight().getRight().setLeft(new Node(14));
-
-        BinarySearchTree binaryTree = new BinarySearchTree();
+        BinaryTree binaryTree = new BinaryTree();
+        var list = binaryTree.verticalOrderTraversal(leftViewRoot);
+        System.out.println(list);
+        /*BinarySearchTree binaryTree = new BinarySearchTree();
         binaryTree.leftViewOfTree(leftViewRoot);*/
 
-        BinaryTree binaryTree = new BinaryTree();
+        //BinaryTree binaryTree = new BinaryTree();
         //binaryTree.binaryTreeFromString("4(2(1)(3))(6(5))");
 
         int[] inOrder = {3, 1, 4, 0, 5, 2};
@@ -95,8 +97,6 @@ public class BinaryTree {
                 stack.pop();
             }
         }
-
-
     }
 
     private void DisplayBinaryTree(Node root) {
@@ -407,6 +407,16 @@ public class BinaryTree {
             System.out.print(out.pop() + " ");
         }
 
+    }
+
+    void countNumberOfLeafNodes(Node root, int count) {
+        if (root == null)
+            return;
+
+        countNumberOfLeafNodes(root.getLeft(), count);
+        if (root.getLeft() == null && root.getRight() == null)
+            count++;
+        countNumberOfLeafNodes(root.getRight(), count);
     }
 
     List<Integer> nodeToRootPath(Node root, int key) {
@@ -739,6 +749,27 @@ public class BinaryTree {
         rightViewOfTreeUtil(root.getLeft(), level + 1, list);
     }
 
+    public Map<Integer, List<Integer>> verticalOrderTraversal(Node root) {
+        Map<Integer, List<Integer>> outerValues = new HashMap<>();
+        verticalOrderTraversalUtil(root, 0, outerValues);
+        return outerValues;
+    }
+
+    private void verticalOrderTraversalUtil(Node root, int level, Map<Integer, List<Integer>> outerValues) {
+        if (root == null)
+            return;
+
+        if (!outerValues.containsKey(level)) {
+            outerValues.put(level, new ArrayList<>());
+        }
+
+        outerValues.get(level).add(root.getValue());
+        verticalOrderTraversalUtil(root.getLeft(), level - 1, outerValues);
+        verticalOrderTraversalUtil(root.getRight(), level + 1, outerValues);
+
+
+    }
+
     public List<Integer> topViewOfTree(Node root) {
         if (root == null)
             return null;
@@ -855,7 +886,7 @@ public class BinaryTree {
     }
 
     private void leftBoundaryTraversal(Node root, List<Integer> traversalList) {
-        while (root.getLeft() != null && root.getRight() != null) {
+        while (root == null || (root.getLeft() != null && root.getRight() != null)) {
             traversalList.add(root.getValue());
             if (root.getLeft() != null)
                 root = root.getLeft();
@@ -865,7 +896,7 @@ public class BinaryTree {
     }
 
     private void addLeaves(Node root, List<Integer> traversalList) {
-        if (root == null) {
+        if (root.getLeft() == null && root.getRight() == null) {
             traversalList.add(root.getValue());
         }
         addLeaves(root.getLeft(), traversalList);
@@ -874,9 +905,9 @@ public class BinaryTree {
 
     private void rightBoundaryTraversal(Node root, List<Integer> traversalList) {
         List<Integer> tempList = new ArrayList<>();
-        while (root.getLeft() != null && root.getRight() != null) {
+        while (root == null || (root.getLeft() != null && root.getRight() != null)) {
             tempList.add(root.getValue());
-            if (root.getLeft() != null)
+            if (root.getRight() != null)
                 root = root.getRight();
             else
                 root = root.getLeft();
@@ -971,6 +1002,20 @@ public class BinaryTree {
         return node.getValue() + oldValue;
     }
 
+    public boolean areTreesIdentical(Node root1, Node root2) {
+        if (root1 == null && root2 == null)
+            return true;
+
+        if (root1 == null && root2 != null)
+            return false;
+
+        if (root1 != null && root2 == null)
+            return false;
+
+        return root1.getValue() == root2.getValue() && areTreesIdentical(root1.getLeft(), root2.getLeft())
+                && areTreesIdentical(root1.getRight(), root2.getRight());
+    }
+
     // Binary tree matching section starts
     //1. Check if a binary tree is subtree of another binary tree | Set 1
     //Worst case complexity: O(nm) i.e. O(n*n)
@@ -999,6 +1044,23 @@ public class BinaryTree {
 
 
     // Binary tree matching section ends
+
+    public boolean isSumTree(Node root) {
+        return isSumTreeUtil(root.getLeft()).isSumTree();
+    }
+
+    public SumTreePair isSumTreeUtil(Node root) {
+        if (root.getLeft() == null && root.getRight() == null)
+            return new SumTreePair(true, root.getValue());
+
+        var leftTree = isSumTreeUtil(root.getLeft());
+        var rightTree = isSumTreeUtil(root.getRight());
+
+        int childSum = leftTree.getSum() + rightTree.getSum();
+
+        var currentTree = new SumTreePair(childSum == root.getValue(), root.getValue());
+        return currentTree;
+    }
 }
 
 class TopViewPair {
@@ -1153,5 +1215,31 @@ class TreeAttributes {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+}
+
+class SumTreePair {
+    private boolean isSumTree;
+    private int sum;
+
+    public SumTreePair(boolean isSumTree, int sum) {
+        this.isSumTree = isSumTree;
+        this.sum = sum;
+    }
+
+    public boolean isSumTree() {
+        return isSumTree;
+    }
+
+    public void setSumTree(boolean sumTree) {
+        isSumTree = sumTree;
+    }
+
+    public int getSum() {
+        return sum;
+    }
+
+    public void setSum(int sum) {
+        this.sum = sum;
     }
 }

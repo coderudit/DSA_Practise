@@ -190,5 +190,28 @@ public class BinarySearchTree {
         }
         return root;
     }
+
+    public Node constructBalancedTreeFromBST(Node node) {
+        int[] arr = getInorderOfTree(node);
+        Node btNode = null;
+        createTree(btNode, arr, 0, arr.length - 1);
+        return btNode;
+    }
+
+    private Node createTree(Node root, int[] arr, int beginIndex, int endIndex) {
+        if (beginIndex > endIndex)
+            return null;
+
+        int mid = (beginIndex + endIndex) / 2;
+        root = new Node(arr[mid]);
+        root.left = createTree(root, arr, beginIndex, mid - 1);
+        root.right = createTree(root, arr, mid + 1, endIndex);
+        return root;
+    }
+
+    private int[] getInorderOfTree(Node root) {
+        int[] arr = new int[10];
+        return arr;
+    }
 }
 
