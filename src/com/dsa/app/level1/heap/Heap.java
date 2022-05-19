@@ -24,6 +24,8 @@ public class Heap {
         maxHeap.insert(12);
         maxHeap.insert(6);
         maxHeap.insert(40);
+
+        System.out.println(maxHeap.delete());
     }
 
     private void insert(int value) {
@@ -41,5 +43,31 @@ public class Heap {
             currentIndex = parentIndex;
             parentIndex = parentIndex / 2;
         }
+    }
+
+    private int delete() {
+        if (heapList.size() <= 1)
+            return -1;
+
+        //Takes the top value from the heap.
+        int temp = heapList.get(1);
+
+        //Store last element as the top of the heap.
+        heapList.set(1, heapList.get(heapList.size() - 1));
+
+        //Delete the last element from the heap.
+        heapList.remove(heapList.size() - 1);
+
+        int parentIndex = 1;
+        int currentIndex = 0;
+
+        while (parentIndex * 2 + 1 < heapList.size() || heapList.get(parentIndex) < heapList.get(currentIndex)) {
+            currentIndex = heapList.get(parentIndex * 2) > heapList.get(parentIndex * 2 + 1) ? parentIndex * 2 : parentIndex * 2 + 1;
+            int current = heapList.get(parentIndex);
+            heapList.set(parentIndex, heapList.get(currentIndex));
+            heapList.set(currentIndex, current);
+            parentIndex = currentIndex;
+        }
+        return temp;
     }
 }
