@@ -1061,6 +1061,25 @@ public class BinaryTree {
         var currentTree = new SumTreePair(childSum == root.getValue(), root.getValue());
         return currentTree;
     }
+
+    public int sumOfLongRootToLeafPath(Node root) {
+        sumOfLongRootToLeafPathUtil(root, 0, 0);
+        return maxSum;
+    }
+
+    int longestPath = 0;
+    int maxSum = 0;
+
+    private void sumOfLongRootToLeafPathUtil(Node root, int pathLength, int sum) {
+        if (root == null) {
+            if (pathLength >= longestPath) {
+                longestPath = pathLength;
+                maxSum = Math.max(sum, maxSum);
+            }
+        }
+        sumOfLongRootToLeafPathUtil(root.getLeft(), pathLength + 1, sum + root.getValue());
+        sumOfLongRootToLeafPathUtil(root.getRight(), pathLength + 1, sum + root.getValue());
+    }
 }
 
 class TopViewPair {
