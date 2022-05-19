@@ -6,7 +6,7 @@ import java.util.List;
 public class Heap {
 
     private int size;
-    List<Integer> heapList;
+    static List<Integer> heapList;
 
     public Heap() {
         heapList = new ArrayList<>();
@@ -25,7 +25,10 @@ public class Heap {
         maxHeap.insert(6);
         maxHeap.insert(40);
 
-        System.out.println(maxHeap.delete());
+        int size = heapList.size();
+        for (int index = 0; index < size - 1; index++) {
+            System.out.println(maxHeap.delete());
+        }
     }
 
     private void insert(int value) {
@@ -61,7 +64,7 @@ public class Heap {
         int parentIndex = 1;
         int currentIndex = 0;
 
-        while (parentIndex * 2 + 1 < heapList.size() || heapList.get(parentIndex) < heapList.get(currentIndex)) {
+        while (parentIndex * 2 < heapList.size() - 1) {
             currentIndex = heapList.get(parentIndex * 2) > heapList.get(parentIndex * 2 + 1) ? parentIndex * 2 : parentIndex * 2 + 1;
             int current = heapList.get(parentIndex);
             heapList.set(parentIndex, heapList.get(currentIndex));
