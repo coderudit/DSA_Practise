@@ -15,7 +15,8 @@ public class Heap {
     }
 
     public static void main(String[] args) {
-        Heap maxHeap = new Heap();
+        //1. Insert into Heap
+        /*Heap maxHeap = new Heap();
         maxHeap.insert(30);
         maxHeap.insert(20);
         maxHeap.insert(15);
@@ -23,12 +24,23 @@ public class Heap {
         maxHeap.insert(10);
         maxHeap.insert(12);
         maxHeap.insert(6);
-        maxHeap.insert(40);
+        maxHeap.insert(40);*/
 
-        int size = heapList.size();
+        //2. Delete from Heap
+        /*int size = heapList.size();
         for (int index = 0; index < size - 1; index++) {
             System.out.println(maxHeap.delete());
+        }*/
+
+        Heap maxHeapify = new Heap();
+        int[] arr = {54, 53, 55, 52, 50};
+        for (int outerIndex = 0; outerIndex < arr.length; outerIndex++) {
+            heapList.add(arr[outerIndex]);
+            for (int index = arr.length / 2; index > 0; index--) {
+                maxHeapify.heapify(index);
+            }
         }
+        System.out.println();
     }
 
     private void insert(int value) {
@@ -89,6 +101,27 @@ public class Heap {
             }
         }
         return temp;
+    }
+
+    //Process nodes from 1 to n/2, as n/2 + 1 to n nodes are leaves and therefore, already in Heap.
+    private void heapify(int index) {
+        int leftChild = 2 * index;
+        int rightChild = 2 * index + 1;
+
+        int currentIndex = 0;
+        if(!(rightChild < heapList.size())){
+            if(!(leftChild < heapList.size())) {
+                return;
+            }else{
+                currentIndex = leftChild;
+            }
+        }else {
+            currentIndex = heapList.get(leftChild) > heapList.get(rightChild) ? leftChild : rightChild;
+        }
+        if (heapList.get(index) < heapList.get(currentIndex)) {
+            swap(heapList, index, currentIndex);
+            heapify(currentIndex);
+        }
     }
 
     private void swap(List<Integer> heap, int index1, int index2) {
