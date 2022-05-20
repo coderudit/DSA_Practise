@@ -106,16 +106,16 @@ public class Heap {
     //Process nodes from 1 to n/2, as n/2 + 1 to n nodes are leaves and therefore, already in Heap.
     private void heapify(int index) {
         int leftChild = 2 * index;
-        int rightChild = 2 * index + 1;
+        int rightChild = leftChild + 1;
 
         int currentIndex = 0;
-        if(!(rightChild < heapList.size())){
-            if(!(leftChild < heapList.size())) {
+        if (!(rightChild < heapList.size())) {
+            if (!(leftChild < heapList.size())) {
                 return;
-            }else{
+            } else {
                 currentIndex = leftChild;
             }
-        }else {
+        } else {
             currentIndex = heapList.get(leftChild) > heapList.get(rightChild) ? leftChild : rightChild;
         }
         if (heapList.get(index) < heapList.get(currentIndex)) {
