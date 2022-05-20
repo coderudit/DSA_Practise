@@ -45,17 +45,11 @@ public class Heap {
             if (heapList.get(parentIndex) < heapList.get(childIndex)) {
                 swap(heapList, parentIndex, childIndex);
                 childIndex = parentIndex;
-                
+
             } else {
                 return;
             }
         }
-    }
-
-    private void swap(List<Integer> heap, int index1, int index2) {
-        int temp = heap.get(index1);
-        heap.set(index1, heap.get(index2));
-        heap.set(index2, temp);
     }
 
     private int delete() {
@@ -72,16 +66,35 @@ public class Heap {
         heapList.remove(heapList.size() - 1);
 
         int parentIndex = 1;
-        int currentIndex = 0;
 
-        while (parentIndex * 2 < heapList.size() - 1) {
-            currentIndex = heapList.get(parentIndex * 2) > heapList.get(parentIndex * 2 + 1) ? parentIndex * 2 : parentIndex * 2 + 1;
-            int current = heapList.get(parentIndex);
-            heapList.set(parentIndex, heapList.get(currentIndex));
-            heapList.set(currentIndex, current);
-            parentIndex = currentIndex;
+        while (parentIndex < heapList.size()) {
+            int leftChild = parentIndex * 2;
+            int rightChild = leftChild + 1;
+            int currentIndex;
+
+            if (!(rightChild < heapList.size())) {
+                if (!(leftChild < heapList.size()))
+                    break;
+                else
+                    currentIndex = leftChild;
+            } else {
+                currentIndex = heapList.get(leftChild) > heapList.get(rightChild) ? leftChild : rightChild;
+            }
+
+            if (heapList.get(parentIndex) < heapList.get(currentIndex)) {
+                swap(heapList, currentIndex, parentIndex);
+                parentIndex = currentIndex;
+            } else {
+                break;
+            }
         }
         return temp;
+    }
+
+    private void swap(List<Integer> heap, int index1, int index2) {
+        int temp = heap.get(index1);
+        heap.set(index1, heap.get(index2));
+        heap.set(index2, temp);
     }
 
 
