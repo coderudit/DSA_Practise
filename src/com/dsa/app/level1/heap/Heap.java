@@ -33,19 +33,29 @@ public class Heap {
 
     private void insert(int value) {
         heapList.add(value);
+        //Return if this is the only inserted element.
         if (heapList.size() == 2) {
             return;
         }
 
-        int currentIndex = heapList.size() - 1;
-        int parentIndex = currentIndex / 2;
-        while (parentIndex > 0 && heapList.get(parentIndex) < heapList.get(currentIndex)) {
-            int temp = heapList.get(parentIndex);
-            heapList.set(parentIndex, heapList.get(currentIndex));
-            heapList.set(currentIndex, temp);
-            currentIndex = parentIndex;
-            parentIndex = parentIndex / 2;
+        int childIndex = heapList.size() - 1;
+        while (childIndex > 1) {
+            int parentIndex = childIndex / 2;
+
+            if (heapList.get(parentIndex) < heapList.get(childIndex)) {
+                swap(heapList, parentIndex, childIndex);
+                childIndex = parentIndex;
+                
+            } else {
+                return;
+            }
         }
+    }
+
+    private void swap(List<Integer> heap, int index1, int index2) {
+        int temp = heap.get(index1);
+        heap.set(index1, heap.get(index2));
+        heap.set(index2, temp);
     }
 
     private int delete() {
