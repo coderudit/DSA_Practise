@@ -95,7 +95,23 @@ public class GraphAdjacencyList {
             }
 
         }
-        return true;
+        return false;
+    }
+
+    boolean detectCycleInDirectedGraphsWithDFS(int vertex, boolean[] visited, boolean[] dfs_visited){
+        visited[vertex] = true;
+        dfs_visited[vertex] = true;
+
+        for(var item: adjLists.get(vertex)){
+            if(dfs_visited[item]){
+                return true;
+            }else if(!visited[item]){
+                boolean hasCycle = detectCycleInDirectedGraphsWithDFS(item, visited, dfs_visited);
+                if(hasCycle)
+                    return true;
+            }
+        }
+        return false;
     }
 
     public static void main(String args[]) {
