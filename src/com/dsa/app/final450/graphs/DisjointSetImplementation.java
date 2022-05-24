@@ -1,4 +1,4 @@
-package com.dsa.app.leetcode.graphs;
+package com.dsa.app.final450.graphs;
 
 public class DisjointSetImplementation {
     public static void main(String[] args) {

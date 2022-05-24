@@ -1,4 +1,4 @@
-package com.dsa.app.leetcode.graphs.depthfirstsearch;
+package com.dsa.app.final450.graphs;
 
 import java.util.Stack;
 
@@ -14,6 +14,7 @@ public class GraphAdjacencyMatrix {
 
     // Add edges
     public void addEdge(int i, int j) {
+        //For an undirected graph
         adjMatrix[i][j] = true;
         adjMatrix[j][i] = true;
     }

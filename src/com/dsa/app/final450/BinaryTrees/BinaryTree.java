@@ -32,7 +32,11 @@ public class BinaryTree {
         //    System.out.println(item);
         //}
 
-
+        int[] arr = {-1, 1, 2, 3, 4, 5, 6, 7};
+        BinaryTree tree = new BinaryTree();
+        Node root = null;
+        tree.BuildTree(root, arr, 1);
+        System.out.println();
         Node leftViewRoot = new Node(10);
         leftViewRoot.setLeft(new Node(2));
         leftViewRoot.setRight(new Node(3));
@@ -56,6 +60,27 @@ public class BinaryTree {
     }
 
     Node root;
+
+    private Node BuildTree(Node treeroot, int[] arr, int index) {
+        if (index == arr.length)
+            return null;
+
+        treeroot = new Node(arr[index]);
+        int leftChild = 2 * index;
+        int rightChild = 2 * index + 1;
+        if (leftChild < arr.length) {
+            treeroot.setLeft(BuildTree(null, arr, leftChild));
+        } else {
+            return treeroot;
+        }
+
+        if (rightChild < arr.length) {
+            treeroot.setRight(BuildTree(null, arr, rightChild));
+        } else {
+            return treeroot;
+        }
+        return treeroot;
+    }
 
     void CreateBinaryTree() {
         Integer[] arr = {50, 25, 12, null, null, 37, 30, null, null, null, 75};
