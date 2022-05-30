@@ -24,6 +24,8 @@ public class Program1 {
         daysArr[7] = "Sun";
 
         int currentDay = linearSearch(S);
+        if(currentDay == -1)
+            return "";
         K = (K + currentDay) % 7;
 
          return daysArr[K];
