@@ -25,7 +25,7 @@ public class _2_FirstNegativeNumber {
 
         for (int index = k; index < nums.length; index++) {
             int startSliding = index - k + 1;
-            if (startSliding  <= currNegIndex) {
+            if (startSliding <= currNegIndex) {
                 negIndexes.add(nums[currNegIndex]);
             } else {
                 boolean negFound = false;
@@ -38,7 +38,7 @@ public class _2_FirstNegativeNumber {
                     }
                     startSliding++;
                 }
-                if(!negFound)
+                if (!negFound)
                     negIndexes.add(-1);
             }
         }

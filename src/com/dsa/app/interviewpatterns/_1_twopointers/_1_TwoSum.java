@@ -1,4 +1,4 @@
-package com.dsa.app.amazon.arraysandstrings;
+package com.dsa.app.interviewpatterns._1_twopointers;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -11,10 +11,10 @@ public class _1_TwoSum {
 
     public int[] twoSum(int[] nums, int target) {
         HashMap<Integer, Integer> numsMap = new HashMap<>();
-        for(int index = 0; index< nums.length; index++) {
+        for (int index = 0; index < nums.length; index++) {
             int diff = target - nums[index];
-            if(numsMap.containsKey(diff) && numsMap.get(diff)!= index){
-                return new int[] {index, numsMap.get(diff)};
+            if (numsMap.containsKey(diff) && numsMap.get(diff) != index) {
+                return new int[]{index, numsMap.get(diff)};
             }
             numsMap.put(nums[index], index);
         }
