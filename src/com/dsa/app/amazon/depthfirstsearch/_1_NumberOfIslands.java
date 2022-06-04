@@ -1,6 +1,7 @@
-package com.dsa.app.amazon;
+package com.dsa.app.amazon.depthfirstsearch;
 
-public class _4_NumberOfIslands {
+//200.
+public class _1_NumberOfIslands {
     public int numIslands(char[][] grid) {
         if (grid == null || grid.length == 0) {
             return 0;
