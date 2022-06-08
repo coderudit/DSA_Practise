@@ -37,7 +37,7 @@ public class _6_LongestSubarrayWithNonRepeatingChars {
 
         int result = 0;
         while (right < s.length()) {
-            char currentChar = s.charAt(right);
+            char currentChar =   s.charAt(right);
             if (charMap.containsKey(currentChar)) {
                 left = Math.max(charMap.get(currentChar), left);
             }
