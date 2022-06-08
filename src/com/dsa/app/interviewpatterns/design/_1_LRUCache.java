@@ -70,6 +70,7 @@ public class _1_LRUCache {
             moveNodeToHead(putNode);
         } else {
             putNode = new LRUNode();
+            putNode.setKey(key);
             putNode.setData(value);
 
             cacheMap.put(key, putNode);
@@ -79,7 +80,7 @@ public class _1_LRUCache {
 
             if (size > capacity) {
                 LRUNode tailNode = popTail();
-                cacheMap.remove(tail.getKey());
+                cacheMap.remove(tailNode.getKey());
                 --size;
             }
         }
