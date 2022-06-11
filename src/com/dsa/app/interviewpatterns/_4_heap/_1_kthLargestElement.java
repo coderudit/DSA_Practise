@@ -1,4 +1,4 @@
-package com.dsa.app.interviewpatterns._3_heap;
+package com.dsa.app.interviewpatterns._4_heap;
 
 import java.util.PriorityQueue;
 
