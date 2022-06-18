@@ -9,7 +9,7 @@ public class _547_NumberOfProvinces {
     }
 
     /*
-    * 100% faster.*/
+     * 100% faster.*/
     public int findCircleNumDFS(int[][] isConnected) {
         boolean[] visited = new boolean[isConnected.length];
         int connectedComponents = 0;
@@ -54,5 +54,57 @@ public class _547_NumberOfProvinces {
             }
         }
         return connectedComponents;
+    }
+
+    int[] root;
+    int[] rank;
+
+    /*
+     * 100% faster.*/
+    public int findCircleNumDisjointSet(int[][] isConnected) {
+        root = new int[isConnected.length];
+        rank = new int[isConnected.length];
+        for (int index = 0; index < isConnected.length; index++) {
+            root[index] = index;
+            rank[index] = 1;
+        }
+
+        for (int mainVertex = 0; mainVertex < isConnected.length; mainVertex++) {
+            for (int subVertex = 0; subVertex < isConnected.length; subVertex++) {
+                if (isConnected[mainVertex][subVertex] == 1 && mainVertex != subVertex) {
+                    union(mainVertex, subVertex);
+                }
+            }
+        }
+
+        int connectedComponents = 0;
+        for (int index = 0; index < root.length; index++) {
+            if (index == root[index])
+                connectedComponents++;
+        }
+        return connectedComponents;
+    }
+
+    private int find(int x) {
+        if (x == root[x]) {
+            return x;
+        }
+        return root[x] = find(root[x]);
+    }
+
+    private void union(int x, int y) {
+        int rootX = find(x);
+        int rootY = find(y);
+
+        if (rootX != rootY) {
+            if (rank[rootX] > rank[rootY]) {
+                root[rootY] = rootX;
+            } else if (rank[rootY] > rank[rootX]) {
+                root[rootX] = rootY;
+            } else {
+                root[rootY] = rootX;
+                rank[rootX] = 1;
+            }
+        }
     }
 }
