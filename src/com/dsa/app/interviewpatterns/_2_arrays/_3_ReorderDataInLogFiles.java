@@ -1,4 +1,4 @@
-package com.dsa.app.interviewpatterns._1_twopointers;
+package com.dsa.app.interviewpatterns._2_arrays;
 
 import java.util.Arrays;
 
