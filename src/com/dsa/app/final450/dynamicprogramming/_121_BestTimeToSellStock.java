@@ -1,4 +1,4 @@
-package com.dsa.app.leetcode.dynamicprogramming;
+package com.dsa.app.final450.dynamicprogramming;
 
 public class _121_BestTimeToSellStock {
     public static void main(String[] args) {

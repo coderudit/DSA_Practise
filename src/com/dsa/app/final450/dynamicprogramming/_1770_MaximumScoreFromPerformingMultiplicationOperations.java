@@ -1,4 +1,4 @@
-package com.dsa.app.leetcode.dynamicprogramming;
+package com.dsa.app.final450.dynamicprogramming;
 
 public class _1770_MaximumScoreFromPerformingMultiplicationOperations {
     public static void main(String[] args) {

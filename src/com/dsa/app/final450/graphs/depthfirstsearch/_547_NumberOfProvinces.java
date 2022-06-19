@@ -62,6 +62,9 @@ public class _547_NumberOfProvinces {
     /*
      * 100% faster.*/
     public int findCircleNumDisjointSet(int[][] isConnected) {
+        if (isConnected == null || isConnected.length == 0) {
+            return 0;
+        }
         root = new int[isConnected.length];
         rank = new int[isConnected.length];
         for (int index = 0; index < isConnected.length; index++) {
@@ -103,7 +106,7 @@ public class _547_NumberOfProvinces {
                 root[rootX] = rootY;
             } else {
                 root[rootY] = rootX;
-                rank[rootX] = 1;
+                rank[rootX] += 1;
             }
         }
     }
