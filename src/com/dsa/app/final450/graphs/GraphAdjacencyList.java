@@ -49,19 +49,18 @@ public class GraphAdjacencyList {
 
     boolean detectCycleInUndirectedGraphsWithBFS(int parent, boolean[] visited, Map<Integer, Integer> childParentMap) {
         childParentMap.put(parent, -1);
-        visited[parent] = true;
         Queue<Integer> queue = new ArrayDeque();
         queue.add(parent);
 
         while (queue.size() > 0) {
             int element = queue.remove();
+            visited[element] = true;
             for (var item : adjLists.get(element)) {
                 //visited[1] = true && 2 => 1 == 1
                 //i.e. if this neighbor was visited as a parent to this neighbor
                 if (visited[item] && childParentMap.get(element) != item) {
                     return true;
                 } else if (!visited[item]) {
-                    visited[item] = true;
                     queue.add(item);
                     childParentMap.put(item, element);
                 }
@@ -103,14 +102,16 @@ public class GraphAdjacencyList {
         dfs_visited[vertex] = true;
 
         for(var item: adjLists.get(vertex)){
-            if(dfs_visited[item]){
-                return true;
-            }else if(!visited[item]){
+            if(!visited[item]){
                 boolean hasCycle = detectCycleInDirectedGraphsWithDFS(item, visited, dfs_visited);
                 if(hasCycle)
                     return true;
             }
+            else if(dfs_visited[item]){
+                return true;
+            }
         }
+        dfs_visited[vertex] = false;
         return false;
     }
 

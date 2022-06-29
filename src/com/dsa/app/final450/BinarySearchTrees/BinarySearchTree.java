@@ -1,7 +1,13 @@
 package com.dsa.app.final450.BinarySearchTrees;
 
+import com.dsa.app.final450.BinaryTrees._1_Traversals;
+
 import java.util.Stack;
 
+/* A Binary Search Tree is a special form of a binary tree. The value in each node must be greater than (or equal to)
+   any values in its left subtree but less than (or equal to) any values in its right subtree.
+   It is noteworthy that inorder traversal in BST will be in ascending order. Therefore, the inorder traversal is the
+   most frequent used traversal method of a BST.*/
 public class BinarySearchTree {
     public static void main(String[] args) {
         BinarySearchTree tree = new BinarySearchTree();
@@ -60,7 +66,7 @@ public class BinarySearchTree {
             return root;
 
         // Key is greater than root's key
-        if (root.key < key)
+        if (key > root.key)
             return search(root.right, key);
 
         // Key is smaller than root's key
@@ -213,5 +219,25 @@ public class BinarySearchTree {
         int[] arr = new int[10];
         return arr;
     }
+
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+    }
+
 }
 

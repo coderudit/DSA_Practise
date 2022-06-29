@@ -139,6 +139,18 @@ public class BinaryTree {
 
     }
 
+    //Love babbar
+    void countNumberOfLeafNodes(Node root, int count) {
+        if (root == null)
+            return;
+
+        countNumberOfLeafNodes(root.getLeft(), count);
+        if (root.getLeft() == null && root.getRight() == null)
+            count++;
+        countNumberOfLeafNodes(root.getRight(), count);
+    }
+
+    //Love babbar
     private int height(Node root) {
         if (root == null)
             return -1;
@@ -149,6 +161,403 @@ public class BinaryTree {
         return Math.max(left, right) + 1;
     }
 
+    //Love babbar
+    int diameterOfATree(Node root) {
+        if (root == null)
+            return 0;
+
+        int leftDiameter = diameterOfATree(root.getLeft());
+        int rightDiameter = diameterOfATree(root.getRight());
+        int totalHeight = height(root.getLeft()) + height(root.getRight()) + 1;
+
+        return Math.max(totalHeight, Math.max(leftDiameter, rightDiameter));
+    }
+
+    //Love babbar
+    DiaPair diameterOfATreeEfficient(Node root) {
+        if (root == null) {
+            DiaPair dp = new DiaPair(-1, 0);
+            return dp;
+        }
+
+        DiaPair leftDP = diameterOfATreeEfficient(root.getLeft());
+        DiaPair rightDP = diameterOfATreeEfficient(root.getRight());
+
+        DiaPair result = new DiaPair();
+        result.setHeight(Math.max(leftDP.getHeight(), rightDP.getHeight()) + 1);
+
+        result.setDiameter(Math.max(leftDP.getHeight() + rightDP.getHeight() + 2, Math.max(leftDP.getDiameter(), rightDP.getDiameter())));
+
+        return result;
+    }
+
+    int max = 0;
+
+    //Love babbar
+    public int diameterOfBinaryTreeOptimized(Node root) {
+        heightDia(root);
+        return max;
+    }
+
+    //Love babbar
+    // the diameter is nothing but the max height of left + max height of right
+    int heightDia(Node root) {
+        //Base case
+        if (root == null) {
+            return 0;
+        }
+        int left = heightDia(root.getLeft());   // max height of left subtree
+        int right = heightDia(root.getRight()); // max height of right subtree
+        max = Math.max(left + right + 1, max); // updating max before returning the value
+        return Math.max(left, right) + 1;// returning the max height
+    }
+
+    //Love babbar
+    public boolean isTreeBalanced(Node root) {
+        int diff = heightModified(root);
+        return diff == -1 ? false : true;
+    }
+
+    //Love babbar
+    private int heightModified(Node root) {
+        if (root == null)
+            return 0;
+
+        int left = heightModified(root.getLeft());
+        int right = heightModified(root.getRight());
+        if (left == -1 || right == -1)
+            return -1;
+
+        int diff = Math.abs(left - right);
+
+        return diff > 1 ? -1 : Math.max(left, right) + 1;
+    }
+
+    //Love babbar
+    public boolean areTreesIdentical(Node root1, Node root2) {
+        if (root1 == null && root2 == null)
+            return true;
+
+        if (root1 != null || root2 != null)
+            return false;
+
+        return root1.getValue() == root2.getValue() && areTreesIdentical(root1.getLeft(), root2.getLeft())
+                && areTreesIdentical(root1.getRight(), root2.getRight());
+    }
+
+    //Love babbar
+    public boolean isSumTree(Node root) {
+        return isSumTreeUtil(root).isSumTree();
+    }
+
+    //Love babbar
+    public SumTreePair isSumTreeUtil(Node root) {
+        if (root.getLeft() == null && root.getRight() == null)
+            return new SumTreePair(true, root.getValue());
+
+        var leftTree = isSumTreeUtil(root.getLeft());
+        var rightTree = isSumTreeUtil(root.getRight());
+
+        int childSum = leftTree.getSum() + rightTree.getSum();
+
+        var currentTree = new SumTreePair(childSum == root.getValue(), root.getValue());
+        return currentTree;
+    }
+
+    //Love babbar
+    public void boundaryTraversal(Node root) {
+        List<Integer> traversalList = new ArrayList<>();
+    }
+
+    //Love babbar
+    private void leftBoundaryTraversal(Node root, List<Integer> traversalList) {
+        while (root == null || (root.getLeft() != null && root.getRight() != null)) {
+            traversalList.add(root.getValue());
+            if (root.getLeft() != null)
+                root = root.getLeft();
+            else
+                root = root.getRight();
+        }
+    }
+
+    //Love babbar
+    private void addLeaves(Node root, List<Integer> traversalList) {
+        if (root.getLeft() == null && root.getRight() == null) {
+            traversalList.add(root.getValue());
+        }
+        addLeaves(root.getLeft(), traversalList);
+        addLeaves(root.getRight(), traversalList);
+    }
+
+    //Love babbar
+    private void rightBoundaryTraversal(Node root, List<Integer> traversalList) {
+        List<Integer> tempList = new ArrayList<>();
+        while (root == null || (root.getLeft() != null && root.getRight() != null)) {
+            tempList.add(root.getValue());
+            if (root.getRight() != null)
+                root = root.getRight();
+            else
+                root = root.getLeft();
+        }
+
+        for (int index = tempList.size() - 1; index >= 0; index--) {
+            traversalList.add(tempList.get(index));
+        }
+    }
+
+    //Love Babbar
+    public Map<Integer, List<Integer>> verticalOrderTraversal(Node root) {
+        Map<Integer, List<Integer>> outerValues = new HashMap<>();
+        verticalOrderTraversalUtil(root, 0, outerValues);
+        return outerValues;
+    }
+
+    //Love Babbar
+    private void verticalOrderTraversalUtil(Node root, int level, Map<Integer, List<Integer>> outerValues) {
+        if (root == null)
+            return;
+
+        if (!outerValues.containsKey(level)) {
+            outerValues.put(level, new ArrayList<>());
+        }
+
+        outerValues.get(level).add(root.getValue());
+        verticalOrderTraversalUtil(root.getLeft(), level - 1, outerValues);
+        verticalOrderTraversalUtil(root.getRight(), level + 1, outerValues);
+
+
+    }
+
+    //Love Babbar
+    public List<Integer> topViewOfTree(Node root) {
+        if (root == null)
+            return null;
+
+        Map<Integer, Integer> map = new TreeMap<>();
+
+        Queue<TopViewPair> queue = new LinkedList<>();
+        queue.add(new TopViewPair(root, 0));
+
+        while (queue.size() > 0) {
+            var item = queue.remove();
+            if (!map.containsKey(item.getHorizontalDistance())) {
+                map.put(item.getHorizontalDistance(), item.getNode().getValue());
+            }
+
+            if (root.getLeft() != null)
+                queue.add(new TopViewPair(root.getLeft(), item.getHorizontalDistance() - 1));
+
+            if (root.getRight() != null)
+                queue.add(new TopViewPair(root.getRight(), item.getHorizontalDistance() + 1));
+        }
+        List<Integer> lst = new ArrayList<>();
+        for (var item : map.keySet()) {
+            lst.add(map.get(item));
+        }
+        return lst;
+    }
+
+    //Love Babbar
+    public List<Integer> bottomViewOfTree(Node root) {
+        if (root == null)
+            return null;
+
+        Map<Integer, Integer> map = new TreeMap<>();
+
+        Queue<TopViewPair> queue = new LinkedList<>();
+        queue.add(new TopViewPair(root, 0));
+
+        while (queue.size() > 0) {
+            var item = queue.remove();
+            map.put(item.getHorizontalDistance(), item.getNode().getValue());
+
+            if (root.getLeft() != null)
+                queue.add(new TopViewPair(root.getLeft(), item.getHorizontalDistance() - 1));
+
+            if (root.getRight() != null)
+                queue.add(new TopViewPair(root.getRight(), item.getHorizontalDistance() + 1));
+        }
+        List<Integer> lst = new ArrayList<>();
+        for (var item : map.keySet()) {
+            lst.add(map.get(item));
+        }
+        return lst;
+    }
+
+    //Love Babbar
+    public void leftViewOfTree(Node root) {
+        if (root == null)
+            return;
+
+        Queue<Node> queue = new LinkedList<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            int n = queue.size();
+            for (int index = 1; index <= n; index++) {
+                var node = queue.poll();
+
+                if (index == 1) {
+                    System.out.println(node.getValue());
+                }
+
+                if (node.getLeft() != null) {
+                    queue.add(node.getLeft());
+                }
+
+                if (node.getRight() != null) {
+                    queue.add(node.getRight());
+                }
+            }
+        }
+
+    }
+
+    //Love Babbar
+    public List<Integer> leftViewOfTreeOptimized(Node root) {
+        if (root == null)
+            return new ArrayList<>();
+
+        List<Integer> leftViewList = new ArrayList<>();
+        leftViewOfTreeUtil(root, 1, leftViewList);
+        for (var item : leftViewList) {
+            System.out.println(item);
+        }
+        return leftViewList;
+    }
+
+    //Love Babbar
+    private void leftViewOfTreeUtil(Node root, int level, List<Integer> list) {
+        if (root == null)
+            return;
+
+        if (list.size() < level) {
+            list.add(root.getValue());
+        }
+        leftViewOfTreeUtil(root.getLeft(), level + 1, list);
+        leftViewOfTreeUtil(root.getRight(), level + 1, list);
+    }
+
+    //Love Babbar
+    public void rightViewOfTree(Node root) {
+        if (root == null)
+            return;
+
+        Queue<Node> queue = new LinkedList<>();
+        queue.add(root);
+
+        while (!queue.isEmpty()) {
+            int n = queue.size();
+
+            boolean firstOcurence = true;
+            for (int index = n; index >= 1; index--) {
+                var node = queue.poll();
+                if (firstOcurence) {
+                    System.out.println(node.getValue());
+                    firstOcurence = false;
+                }
+
+                if (node.getRight() != null) {
+                    queue.add(node.getRight());
+                }
+
+                if (node.getLeft() != null) {
+                    queue.add(node.getLeft());
+                }
+
+            }
+        }
+    }
+
+    //Love Babbar
+    public List<Integer> rightViewOfTreeOptimized(Node root) {
+        if (root == null)
+            return new ArrayList<>();
+
+        List<Integer> rightViewList = new ArrayList<>();
+        rightViewOfTreeUtil(root, 1, rightViewList);
+        for (var item : rightViewList) {
+            System.out.println(item);
+        }
+        return rightViewList;
+    }
+
+    //Love Babbar
+    private void rightViewOfTreeUtil(Node root, int level, List<Integer> list) {
+        if (root == null)
+            return;
+
+        if (list.size() < level) {
+            list.add(root.getValue());
+        }
+
+        rightViewOfTreeUtil(root.getRight(), level + 1, list);
+        rightViewOfTreeUtil(root.getLeft(), level + 1, list);
+    }
+
+    //Love Babbar
+    class BloodLinePair {
+        int sum;
+        int height;
+
+        public BloodLinePair() {
+        }
+
+        public BloodLinePair(int sum, int height) {
+            this.sum = sum;
+            this.height = height;
+        }
+    }
+
+    //Love Babbar
+    public BloodLinePair sumOfTheLongestBloodLine(Node root) {
+        if (root == null)
+            return new BloodLinePair(0, 0);
+
+        BloodLinePair leftPair = sumOfTheLongestBloodLine(root.getLeft());
+        BloodLinePair rightPair = sumOfTheLongestBloodLine(root.getRight());
+
+        BloodLinePair rootPair = new BloodLinePair();
+        if (leftPair.height > rightPair.height)
+            rootPair.height = leftPair.height + 1;
+        else
+            rootPair.height = rightPair.height + 1;
+
+        rootPair.sum = leftPair.sum + rightPair.sum + 1;
+        return rootPair;
+    }
+
+    //Love Babbar
+    public void sumOfTheLongestBloodLine(Node root, int length, int maxLength, int sum, int maxSum) {
+        if (root == null) {
+            if (length > maxLength) {
+                length = maxLength;
+                sum = maxSum;
+            } else if (length == maxLength)
+                maxSum = Math.max(sum, maxSum);
+            return;
+        }
+
+        sum = sum + root.getValue();
+        sumOfTheLongestBloodLine(root.getLeft(), length + 1, maxLength, sum, maxSum);
+        sumOfTheLongestBloodLine(root.getRight(), length + 1, maxLength, sum, maxSum);
+    }
+
+    public Node LowestCommonAncestor(Node root, Node p, Node q){
+        if(root== null)
+            return null;
+        if(root.getValue() == p.getValue() || root.getValue() == q.getValue())
+            return root;
+        Node left = LowestCommonAncestor(root.getLeft(), p, q);
+        Node right = LowestCommonAncestor(root.getRight(), p, q);
+
+        if(left != null && right != null)
+            return root;
+        else if(left != null)
+            return left;
+        else if(right != null)
+            return right;
+        return null;
+    }
     private int FindSizeSumMaxAndHeightOfATree(Node root, TreeAttributes treeAttributes) {
         if (root == null) {
             return -1;
@@ -434,15 +843,6 @@ public class BinaryTree {
 
     }
 
-    void countNumberOfLeafNodes(Node root, int count) {
-        if (root == null)
-            return;
-
-        countNumberOfLeafNodes(root.getLeft(), count);
-        if (root.getLeft() == null && root.getRight() == null)
-            count++;
-        countNumberOfLeafNodes(root.getRight(), count);
-    }
 
     List<Integer> nodeToRootPath(Node root, int key) {
         if (root.getValue() == key) {
@@ -604,56 +1004,6 @@ public class BinaryTree {
         printSingleChildNode(root.getRight());
     }
 
-    int diameterOfATree(Node root) {
-        if (root == null)
-            return 0;
-
-        int leftHeight = height(root.getLeft()) + 1;
-        int rightHeight = height(root.getRight()) + 1;
-
-        int leftDistance = diameterOfATree(root.getLeft());
-        int rightDistance = diameterOfATree(root.getRight());
-
-        int totalDistance = Math.max(leftHeight + rightHeight + 2, Math.max(leftDistance, rightDistance));
-        return totalDistance;
-    }
-
-    DiaPair diameterOfATreeEfficient(Node root) {
-        if (root == null) {
-            DiaPair dp = new DiaPair(-1, 0);
-            return dp;
-        }
-
-        DiaPair leftDP = diameterOfATreeEfficient(root.getLeft());
-        DiaPair rightDP = diameterOfATreeEfficient(root.getRight());
-
-        DiaPair result = new DiaPair();
-        result.setHeight(Math.max(leftDP.getHeight(), rightDP.getHeight()) + 1);
-
-        result.setDiameter(Math.max(leftDP.getHeight() + rightDP.getHeight() + 2, Math.max(leftDP.getDiameter(), rightDP.getDiameter())));
-
-        return result;
-    }
-
-    int max = 0;
-
-    public int diameterOfBinaryTreeOptimized(Node root) {
-        heightDia(root);
-        return max;
-    }
-
-    // the diameter is nothing but the max height of left + max height of right
-    int heightDia(Node root) {
-        //Base case
-        if (root == null) {
-            return 0;
-        }
-        int left = heightDia(root.getLeft());   // max height of left subtree
-        int right = heightDia(root.getRight()); // max height of right subtree
-        max = Math.max(left + right, max); // updating max before returning the value
-        return Math.max(left, right) + 1;// returning the max height
-    }
-
     static int totalTilt = 0;
 
     int tiltOfTheTree(Node root) {
@@ -668,204 +1018,6 @@ public class BinaryTree {
         totalTilt += diff;
 
         return leftTilt + rightTilt + root.getValue();
-    }
-
-    public void leftViewOfTree(Node root) {
-        if (root == null)
-            return;
-
-        Queue<Node> queue = new LinkedList<>();
-        queue.add(root);
-        while (!queue.isEmpty()) {
-            int n = queue.size();
-            for (int index = 1; index <= n; index++) {
-                var node = queue.poll();
-
-                if (index == 1) {
-                    System.out.println(node.getValue());
-                }
-
-                if (node.getLeft() != null) {
-                    queue.add(node.getLeft());
-                }
-
-                if (node.getRight() != null) {
-                    queue.add(node.getRight());
-                }
-            }
-        }
-
-    }
-
-    public List<Integer> leftViewOfTreeOptimized(Node root) {
-        if (root == null)
-            return new ArrayList<>();
-
-        List<Integer> leftViewList = new ArrayList<>();
-        leftViewOfTreeUtil(root, 1, leftViewList);
-        for (var item : leftViewList) {
-            System.out.println(item);
-        }
-        return leftViewList;
-    }
-
-    private void leftViewOfTreeUtil(Node root, int level, List<Integer> list) {
-        if (root == null)
-            return;
-
-        if (list.size() < level) {
-            list.add(root.getValue());
-        }
-        leftViewOfTreeUtil(root.getLeft(), level + 1, list);
-        leftViewOfTreeUtil(root.getRight(), level + 1, list);
-    }
-
-    public void rightViewOfTree(Node root) {
-        if (root == null)
-            return;
-
-        Queue<Node> queue = new LinkedList<>();
-        queue.add(root);
-
-        while (!queue.isEmpty()) {
-            int n = queue.size();
-
-            boolean firstOcurence = true;
-            for (int index = n; index >= 1; index--) {
-                var node = queue.poll();
-                if (firstOcurence) {
-                    System.out.println(node.getValue());
-                    firstOcurence = false;
-                }
-
-                if (node.getRight() != null) {
-                    queue.add(node.getRight());
-                }
-
-                if (node.getLeft() != null) {
-                    queue.add(node.getLeft());
-                }
-
-            }
-        }
-    }
-
-    public List<Integer> rightViewOfTreeOptimized(Node root) {
-        if (root == null)
-            return new ArrayList<>();
-
-        List<Integer> rightViewList = new ArrayList<>();
-        rightViewOfTreeUtil(root, 1, rightViewList);
-        for (var item : rightViewList) {
-            System.out.println(item);
-        }
-        return rightViewList;
-    }
-
-    private void rightViewOfTreeUtil(Node root, int level, List<Integer> list) {
-        if (root == null)
-            return;
-
-        if (list.size() < level) {
-            list.add(root.getValue());
-        }
-
-        rightViewOfTreeUtil(root.getRight(), level + 1, list);
-        rightViewOfTreeUtil(root.getLeft(), level + 1, list);
-    }
-
-    public Map<Integer, List<Integer>> verticalOrderTraversal(Node root) {
-        Map<Integer, List<Integer>> outerValues = new HashMap<>();
-        verticalOrderTraversalUtil(root, 0, outerValues);
-        return outerValues;
-    }
-
-    private void verticalOrderTraversalUtil(Node root, int level, Map<Integer, List<Integer>> outerValues) {
-        if (root == null)
-            return;
-
-        if (!outerValues.containsKey(level)) {
-            outerValues.put(level, new ArrayList<>());
-        }
-
-        outerValues.get(level).add(root.getValue());
-        verticalOrderTraversalUtil(root.getLeft(), level - 1, outerValues);
-        verticalOrderTraversalUtil(root.getRight(), level + 1, outerValues);
-
-
-    }
-
-    public List<Integer> topViewOfTree(Node root) {
-        if (root == null)
-            return null;
-
-        Map<Integer, Integer> map = new TreeMap<>();
-
-        Queue<TopViewPair> queue = new LinkedList<>();
-        queue.add(new TopViewPair(root, 0));
-
-        while (queue.size() > 0) {
-            var item = queue.remove();
-            if (!map.containsKey(item.getHorizontalDistance())) {
-                map.put(item.getHorizontalDistance(), item.getNode().getValue());
-            }
-
-            if (root.getLeft() != null)
-                queue.add(new TopViewPair(root.getLeft(), item.getHorizontalDistance() - 1));
-
-            if (root.getRight() != null)
-                queue.add(new TopViewPair(root.getRight(), item.getHorizontalDistance() + 1));
-        }
-        List<Integer> lst = new ArrayList<>();
-        for (var item : map.keySet()) {
-            lst.add(map.get(item));
-        }
-        return lst;
-    }
-
-    public List<Integer> bottomViewOfTree(Node root) {
-        if (root == null)
-            return null;
-
-        Map<Integer, Integer> map = new TreeMap<>();
-
-        Queue<TopViewPair> queue = new LinkedList<>();
-        queue.add(new TopViewPair(root, 0));
-
-        while (queue.size() > 0) {
-            var item = queue.remove();
-            map.put(item.getHorizontalDistance(), item.getNode().getValue());
-
-            if (root.getLeft() != null)
-                queue.add(new TopViewPair(root.getLeft(), item.getHorizontalDistance() - 1));
-
-            if (root.getRight() != null)
-                queue.add(new TopViewPair(root.getRight(), item.getHorizontalDistance() + 1));
-        }
-        List<Integer> lst = new ArrayList<>();
-        for (var item : map.keySet()) {
-            lst.add(map.get(item));
-        }
-        return lst;
-    }
-
-    public boolean isTreeBalanced(Node root) {
-        int diff = heightModified(root);
-        return diff == -1 ? false : true;
-    }
-
-    private int heightModified(Node root) {
-        if (root == null)
-            return 0;
-
-        int left = heightModified(root.getLeft());
-        int right = heightModified(root.getRight());
-        if (left == -1 || right == -1)
-            return -1;
-
-        int diff = Math.abs(left - right);
-
-        return diff > 1 ? -1 : Math.max(left, right) + 1;
     }
 
     public void diagonalTree(Node root) {
@@ -902,46 +1054,6 @@ public class BinaryTree {
         }
     }
 
-    public void boundaryTraversal(Node root) {
-        List<Integer> traversalList = new ArrayList<>();
-    }
-
-    private boolean isLeaf(Node root) {
-        return root.getLeft() == null && root.getRight() == null;
-    }
-
-    private void leftBoundaryTraversal(Node root, List<Integer> traversalList) {
-        while (root == null || (root.getLeft() != null && root.getRight() != null)) {
-            traversalList.add(root.getValue());
-            if (root.getLeft() != null)
-                root = root.getLeft();
-            else
-                root = root.getRight();
-        }
-    }
-
-    private void addLeaves(Node root, List<Integer> traversalList) {
-        if (root.getLeft() == null && root.getRight() == null) {
-            traversalList.add(root.getValue());
-        }
-        addLeaves(root.getLeft(), traversalList);
-        addLeaves(root.getRight(), traversalList);
-    }
-
-    private void rightBoundaryTraversal(Node root, List<Integer> traversalList) {
-        List<Integer> tempList = new ArrayList<>();
-        while (root == null || (root.getLeft() != null && root.getRight() != null)) {
-            tempList.add(root.getValue());
-            if (root.getRight() != null)
-                root = root.getRight();
-            else
-                root = root.getLeft();
-        }
-
-        for (int index = tempList.size() - 1; index >= 0; index--) {
-            traversalList.add(tempList.get(index));
-        }
-    }
 
     //-4(2(1)(3))(6(5))
     private Node binaryTreeFromString(String str) {
@@ -1027,19 +1139,6 @@ public class BinaryTree {
         return node.getValue() + oldValue;
     }
 
-    public boolean areTreesIdentical(Node root1, Node root2) {
-        if (root1 == null && root2 == null)
-            return true;
-
-        if (root1 == null && root2 != null)
-            return false;
-
-        if (root1 != null && root2 == null)
-            return false;
-
-        return root1.getValue() == root2.getValue() && areTreesIdentical(root1.getLeft(), root2.getLeft())
-                && areTreesIdentical(root1.getRight(), root2.getRight());
-    }
 
     // Binary tree matching section starts
     //1. Check if a binary tree is subtree of another binary tree | Set 1
@@ -1070,22 +1169,6 @@ public class BinaryTree {
 
     // Binary tree matching section ends
 
-    public boolean isSumTree(Node root) {
-        return isSumTreeUtil(root.getLeft()).isSumTree();
-    }
-
-    public SumTreePair isSumTreeUtil(Node root) {
-        if (root.getLeft() == null && root.getRight() == null)
-            return new SumTreePair(true, root.getValue());
-
-        var leftTree = isSumTreeUtil(root.getLeft());
-        var rightTree = isSumTreeUtil(root.getRight());
-
-        int childSum = leftTree.getSum() + rightTree.getSum();
-
-        var currentTree = new SumTreePair(childSum == root.getValue(), root.getValue());
-        return currentTree;
-    }
 
     public int sumOfLongRootToLeafPath(Node root) {
         sumOfLongRootToLeafPathUtil(root, 0, 0);
