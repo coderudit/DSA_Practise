@@ -25,11 +25,9 @@ public class _6_LongestSubarrayWithNonRepeatingChars {
                     chars[s.charAt(left)]--;
                     left++;
                 }
-            } else {
-                result = Math.max(result, right - left + 1);
             }
 
-
+            result = Math.max(result, right - left + 1);
             right++;
         }
         return result;

@@ -1,10 +1,10 @@
-package com.dsa.app.interviewpatterns._1_twopointers;
+package com.dsa.app.interviewpatterns._2_arrays;
 
 import java.util.HashMap;
 
-public class _1_TwoSum {
+public class _4_TwoSum {
     public static void main(String[] args) {
-        _1_TwoSum problem = new _1_TwoSum();
+        _4_TwoSum problem = new _4_TwoSum();
         int[] nums = {3, 3};
         int target = 6;
         problem.twoSum(nums, target);
